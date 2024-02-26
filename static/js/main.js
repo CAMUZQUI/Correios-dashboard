@@ -2,7 +2,7 @@ function initMap() {
 
     const baseUrl = window.location.pathname;
         
-    fetch('${baseUrl}/Correios-dashboard/static/json/map_styles.json')
+    fetch('${baseUrl}static/json/map_styles.json')
         .then(function(response) {
             return response.json();
         })
