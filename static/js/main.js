@@ -13,14 +13,14 @@ function initMap() {
                 styles: styles,                
                 // Estas opciones ocultan la UI por defecto
                 disableDefaultUI: true,
-                // AquÌ puedes personalizar quÈ controles quieres mostrar
+                // Aqu√≠ puedes personalizar qu√© controles quieres mostrar
                 zoomControl: true,
                 zoomControlOptions: {
-                    position: google.maps.ControlPosition.LEFT_BOTTOM // PosiciÛn del control de zoom
+                    position: google.maps.ControlPosition.LEFT_BOTTOM // Posici√≥n del control de zoom
                 },
                 fullscreenControl: true,
                 fullscreenControlOptions: {
-                    position: google.maps.ControlPosition.LEFT_TOP // PosiciÛn del control de zoom
+                    position: google.maps.ControlPosition.LEFT_TOP // Posici√≥n del control de zoom
                 },
                 scaleControl: true,                
                 mapTypeControl: false,                
@@ -29,15 +29,6 @@ function initMap() {
             };
         
             var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-            
-            /*
-            var marker = new google.maps.Marker({
-                position: mapOptions.center,
-                map: map,
-                title: 'Limeira, Brasil'
-            });
-            */
-            
             
             
             // Configura el servicio Directions y el renderer
@@ -68,103 +59,70 @@ function initMap() {
             var waypts = [
                 {location: {lat: -22.5757, lng: -47.4128}, stopover: true},
                 {location: {lat: -22.5568, lng: -47.3939}, stopover: true},
-                // Agrega m·s waypoints si es necesario
+                // Agrega m√°s waypoints si es necesario
             ];
             
             
             var waypts2 = [
                 {location: {lat: -22.5457, lng: -47.4128}, stopover: true},
                 {location: {lat: -22.5568, lng: -47.4239}, stopover: true},
-                // Agrega m·s waypoints si es necesario
+                // Agrega m√°s waypoints si es necesario
             ];
             
-            /*var ruta = [
-              //{ lat: -22.5646, lng: -47.4017 },
-              { lat: -22.5557, lng: -47.4128 },
-              { lat: -22.5368, lng: -47.3939 },
-              { lat: -22.5468, lng: -47.4239 },
-              { lat: -22.5568, lng: -47.3839 },
-              //{ lat: -22.5646, lng: -47.4017 },
-              // Agrega m·s puntos seg˙n sea necesario
-            ];*/
-        
-            //for (var iRuta = 1; iRuta < ruta.length; iRuta++) {
-        
-                // Crea una solicitud para el servicio Directions
-                var request = {
-                    origin: start,
-                    destination: start,  
-                    waypoints: waypts,
-                    optimizeWaypoints: true,                                  
-                    travelMode: 'DRIVING' // Modo de viaje
-                };
-                
-                var request2 = {
-                    origin: start,
-                    destination: start,  
-                    waypoints: waypts2,
-                    optimizeWaypoints: true,
-                    travelMode: 'DRIVING'
-                };
             
-                // Calcula la ruta
-                directionsService.route(request, function(result, status) {
-                    if (status == 'OK') {
-                        directionsRenderer.setDirections(result);                        
-                                      
-                        /*
-                        //if(iRuta==ruta.length){
-                            // Retrasa el ajuste manual del centro y zoom
-                            setTimeout(function() {
-                                //document.getElementById('divGraficas').style.display = 'block';
-                                //initGraf();
-                                // Establece el centro y el zoom especÌficos aquÌ
-                                //map.panTo(new google.maps.LatLng(-22.5646, -47.4017));
-                                map.setCenter(new google.maps.LatLng(-22.5646, -47.3817)); 
-                                map.setZoom(13.7);
-                                
-                            }, 3500); // Retraso de 500 ms
-                            setTimeout(function() {
-                                document.getElementById('divGraficas').style.display = 'block';
-                                initGraf();                        
-                            }, 1500);
-                        //} 
-                        */   
-                        
-                        setTimeout(function() {
-                            // Solicita la segunda ruta
-                            directionsService.route(request2, function(result, status) {
-                                if (status == 'OK') {
-                                    directionsRenderer2.setDirections(result);
-                                    // Retrasa el ajuste manual del centro y zoom
-                                    setTimeout(function() {
-                                        //document.getElementById('divGraficas').style.display = 'block';
-                                        //initGraf();
-                                        // Establece el centro y el zoom especÌficos aquÌ
-                                        //map.panTo(new google.maps.LatLng(-22.5646, -47.4017));
-                                        map.setCenter(new google.maps.LatLng(-22.5646, -47.3817)); 
-                                        map.setZoom(13.7);
+        
+            // Crea una solicitud para el servicio Directions
+            var request = {
+                origin: start,
+                destination: start,  
+                waypoints: waypts,
+                optimizeWaypoints: true,                                  
+                travelMode: 'DRIVING' // Modo de viaje
+            };
+            
+            var request2 = {
+                origin: start,
+                destination: start,  
+                waypoints: waypts2,
+                optimizeWaypoints: true,
+                travelMode: 'DRIVING'
+            };
+        
+            // Calcula la ruta
+            directionsService.route(request, function(result, status) {
+                if (status == 'OK') {
+                    directionsRenderer.setDirections(result);   
+                    
+                    console.log(result);                 
                                         
-                                    }, 3500); // Retraso de 500 ms
-                                    setTimeout(function() {
-                                        document.getElementById('divGraficas').style.display = 'block';
-                                        initGraf();                        
-                                    }, 1500);
-                                }
-                            });                        
-                        }, 1200);                
-                        
-                    }
-                });
-                
-                
-                
-            //}
-            
-               
+                    setTimeout(function() {
+                        // Solicita la segunda ruta
+                        directionsService.route(request2, function(result, status) {
+                            if (status == 'OK') {
+                                directionsRenderer2.setDirections(result);
+                                // Retrasa el ajuste manual del centro y zoom
+                                setTimeout(function() {
+                                    //document.getElementById('divGraficas').style.display = 'block';
+                                    //initGraf();
+                                    // Establece el centro y el zoom espec√≠ficos aqu√≠
+                                    //map.panTo(new google.maps.LatLng(-22.5646, -47.4017));
+                                    map.setCenter(new google.maps.LatLng(-22.5646, -47.3817)); 
+                                    map.setZoom(13.7);
+                                    
+                                }, 3500); // Retraso de 500 ms
+                                setTimeout(function() {
+                                    document.getElementById('divGraficas').style.display = 'block';
+                                    initGraf();                        
+                                }, 1500);
+                            }
+                        });                        
+                    }, 1200);                
+                    
+                }
+            });              
+                                            
     });
     
-    //initGraf();
     
 }
     
@@ -181,9 +139,9 @@ function initGraf() {
                 data: [12/20, 19/20, 3/20, 5/20, 2/20, 3/20, 9/20], // Datos de la Serie 1
                 borderColor: 'rgb(20, 200, 30)',   //'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(20, 200, 30, 0.2)',  //'rgba(255, 99, 132, 0.2)',
-                fill: true, // Rellena el ·rea bajo la lÌnea
-                pointRadius: 5, // TamaÒo de los marcadores de puntos
-                pointHoverRadius: 8, // TamaÒo al pasar el mouse sobre los puntos
+                fill: true, // Rellena el √°rea bajo la l√≠nea
+                pointRadius: 5, // Tama√±o de los marcadores de puntos
+                pointHoverRadius: 8, // Tama√±o al pasar el mouse sobre los puntos
             }, {
                 label: 'Capacidade',
                 //data: [7, 11, 5, 8, 3, 7, 6], // Datos de la Serie 2
@@ -204,28 +162,28 @@ function initGraf() {
                 pointHoverRadius: 8,
             },
             {
-                label: 'M\u00E1x', // Nombre que aparecer· en la leyenda
-                //data: [15, 15, 15, 15, 15, 15, 15], // Datos para la lÌnea punteada (usualmente el mismo valor si es un lÌmite horizontal)
+                label: 'M\u00E1x', // Nombre que aparecer√° en la leyenda
+                //data: [15, 15, 15, 15, 15, 15, 15], // Datos para la l√≠nea punteada (usualmente el mismo valor si es un l√≠mite horizontal)
                 data: [0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75],
-                borderColor: '#F05006', // Color de la lÌnea punteada
-                backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la lÌnea
-                borderWidth: 2, // Ancho de la lÌnea
-                borderDash: [5, 5], // PatrÛn de la lÌnea punteada
+                borderColor: '#F05006', // Color de la l√≠nea punteada
+                backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la l√≠nea
+                borderWidth: 2, // Ancho de la l√≠nea
+                borderDash: [5, 5], // Patr√≥n de la l√≠nea punteada
                 pointRadius: 0, // Radio del punto (0 para que no se muestren puntos)
-                fill: false, // Especifica que no se rellene el ·rea bajo la lÌnea
-                tension: 0, // LÌneas rectas sin curvatura
+                fill: false, // Especifica que no se rellene el √°rea bajo la l√≠nea
+                tension: 0, // L√≠neas rectas sin curvatura
             },
             {
-                label: 'M\u00EDn', // Nombre que aparecer· en la leyenda
-                //data: [5, 5, 5, 5, 5, 5, 5], // Datos para la lÌnea punteada (usualmente el mismo valor si es un lÌmite horizontal)
+                label: 'M\u00EDn', // Nombre que aparecer√° en la leyenda
+                //data: [5, 5, 5, 5, 5, 5, 5], // Datos para la l√≠nea punteada (usualmente el mismo valor si es un l√≠mite horizontal)
                 data: [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25],
-                borderColor: '#C0C0C7', // Color de la lÌnea punteada
-                backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la lÌnea
-                borderWidth: 2, // Ancho de la lÌnea
-                borderDash: [5, 5], // PatrÛn de la lÌnea punteada
+                borderColor: '#C0C0C7', // Color de la l√≠nea punteada
+                backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la l√≠nea
+                borderWidth: 2, // Ancho de la l√≠nea
+                borderDash: [5, 5], // Patr√≥n de la l√≠nea punteada
                 pointRadius: 0, // Radio del punto (0 para que no se muestren puntos)
-                fill: false, // Especifica que no se rellene el ·rea bajo la lÌnea
-                tension: 0, // LÌneas rectas sin curvatura
+                fill: false, // Especifica que no se rellene el √°rea bajo la l√≠nea
+                tension: 0, // L√≠neas rectas sin curvatura
             }]
         },
         options: {
@@ -248,7 +206,7 @@ function initGraf() {
                         pointStyle: 'rectRounded', // Estilo del punto (cuadrado redondeado)
                         padding: 20, // Espaciado entre elementos de la leyenda
                         boxWidth: 8, // Ancho del cuadro de color en la leyenda
-                        boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporciÛn, podrÌa omitirse)
+                        boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporci√≥n, podr√≠a omitirse)
                         color: 'rgba(255, 255, 255, 0.9)',
                         // Personaliza las etiquetas de la leyenda
                         generateLabels: function(chart) {
@@ -258,9 +216,9 @@ function initGraf() {
                                 if (label.text === 'M\u00E1x' || label.text === 'M\u00EDn') {
                                     // Cambia el estilo de punto a 'line'
                                     label.pointStyle = 'line';
-                                    // Establece el grosor de la lÌnea para la leyenda
+                                    // Establece el grosor de la l√≠nea para la leyenda
                                     label.lineWidth = 2;
-                                    // Establece el patrÛn de la lÌnea punteada
+                                    // Establece el patr√≥n de la l√≠nea punteada
                                     label.borderDash = [5, 5];
                                 }
                             });
@@ -273,22 +231,22 @@ function initGraf() {
                     text: 'Equil\u00EDbrio e limites',
                     color: 'rgba(255, 255, 255, 0.9)',
                     padding: {
-                        top: 10, // Aumenta la distancia del tÌtulo desde la parte superior
+                        top: 10, // Aumenta la distancia del t√≠tulo desde la parte superior
                         bottom: 5 // Puedes ajustar la distancia desde la parte inferior si es necesario
                     },
-                    font: { // AquÌ agregas la configuraciÛn de la fuente
-                        size: 18 // TamaÒo de la fuente del tÌtulo
+                    font: { // Aqu√≠ agregas la configuraci√≥n de la fuente
+                        size: 18 // Tama√±o de la fuente del t√≠tulo
                     },
                 },
                 tooltip: {
                     callbacks: {
                         label: function(context) { 
-                            // ObtÈn el nombre de la serie de datos
+                            // Obt√©n el nombre de la serie de datos
                             const label = context.dataset.label || '';
-                            // ObtÈn el valor real del punto de datos
+                            // Obt√©n el valor real del punto de datos
                             const value = context.raw * 20;
                             // Combina la etiqueta y el valor para mostrar ambos en el tooltip
-                            return `${label}: ${value}`;  //Adicionar cÛdigo para entregar el valor real al tooltip
+                            return `${label}: ${value}`;  //Adicionar c√≥digo para entregar el valor real al tooltip
                         }
                     }
                 }               
@@ -299,7 +257,7 @@ function initGraf() {
                         color: 'rgba(255, 255, 255, 0.9)', // Color del texto de los ticks del eje X
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)', // Color de las lÌneas de la cuadrÌcula del eje X
+                        color: 'rgba(255, 255, 255, 0.2)', // Color de las l√≠neas de la cuadr√≠cula del eje X
                     }
                 },
                 y: {
@@ -307,10 +265,10 @@ function initGraf() {
                         color: 'rgba(255, 255, 255, 0.9)', // Color del texto de los ticks del eje Y
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)', // Color de las lÌneas de la cuadrÌcula del eje Y
+                        color: 'rgba(255, 255, 255, 0.2)', // Color de las l√≠neas de la cuadr√≠cula del eje Y
                     },
-                    min: 0, // LÌmite inferior fijado en 0
-                    max: 1, // LÌmite superior fijado en 1
+                    min: 0, // L√≠mite inferior fijado en 0
+                    max: 1, // L√≠mite superior fijado en 1
                 }
             }             
         }
@@ -326,7 +284,7 @@ function initGraf() {
             labels: ['Atendido', 'N\u00E3o atendido'],
             datasets: [{
                 label: 'Porcentaje',
-                data: [97, 3], // Estos valores deberÌan ser din·micos
+                data: [97, 3], // Estos valores deber√≠an ser din√°micos
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.2)',
                     'rgba(255, 206, 86, 0.2)',
@@ -353,7 +311,7 @@ function initGraf() {
                         pointStyle: 'rectRounded', // Estilo del punto (cuadrado redondeado)
                         padding: 25, // Espaciado entre elementos de la leyenda
                         boxWidth: 8, // Ancho del cuadro de color en la leyenda
-                        boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporciÛn, podrÌa omitirse)
+                        boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporci√≥n, podr√≠a omitirse)
                         color: 'rgba(255, 255, 255, 0.9)',
                     },
                     align: 'center', // Esto alinea la leyenda al inicio (izquierda para 'bottom')
@@ -364,26 +322,26 @@ function initGraf() {
                     text: 'Qualidade de atendimento',
                     color: 'rgba(255, 255, 255, 0.9)',
                     padding: {
-                        top: 10, // Aumenta la distancia del tÌtulo desde la parte superior
+                        top: 10, // Aumenta la distancia del t√≠tulo desde la parte superior
                         bottom: 20, // Puedes ajustar la distancia desde la parte inferior si es necesario
                     },
-                    font: { // AquÌ agregas la configuraciÛn de la fuente
-                        size: 18 // TamaÒo de la fuente del tÌtulo
+                    font: { // Aqu√≠ agregas la configuraci√≥n de la fuente
+                        size: 18 // Tama√±o de la fuente del t√≠tulo
                     },
                 },
                 centerText: { // Nuestro plugin personalizado para agregar texto
-                    text: 'Calculando...' // Texto inicial, se actualizar· con el porcentaje
+                    text: 'Calculando...' // Texto inicial, se actualizar√° con el porcentaje
                 },
                 layout: {
                     padding: {
-                        top: 5, // Ajusta seg˙n sea necesario para el espacio adicional alrededor del gr·fico
+                        top: 5, // Ajusta seg√∫n sea necesario para el espacio adicional alrededor del gr√°fico
                     }
                 } 
             }          
         },
-        plugins: [{ // Agregamos el plugin directamente al gr·fico
-            id: 'centerText', // Un identificador ˙nico para el plugin
-            afterDraw: function(chart) { // La funciÛn que se llama despuÈs de que el gr·fico se dibuja
+        plugins: [{ // Agregamos el plugin directamente al gr√°fico
+            id: 'centerText', // Un identificador √∫nico para el plugin
+            afterDraw: function(chart) { // La funci√≥n que se llama despu√©s de que el gr√°fico se dibuja
                 let text = chart.options.plugins.centerText.text,
                     ctx = chart.ctx,
                     centerX = (chart.chartArea.left + chart.chartArea.right) / 2,
@@ -404,7 +362,7 @@ function initGraf() {
     const total = GraficoTorta.data.datasets[0].data.reduce((a, b) => a + b, 0);
     const percentageText = ((GraficoTorta.data.datasets[0].data[0] / total) * 100).toFixed(1) + '%';
     
-    // Actualizamos el texto del plugin y forzamos una actualizaciÛn del gr·fico
+    // Actualizamos el texto del plugin y forzamos una actualizaci√≥n del gr√°fico
     GraficoTorta.options.plugins.centerText.text = percentageText;
     GraficoTorta.update();       
             
@@ -417,7 +375,7 @@ document.getElementById('input-csv').addEventListener('change', function(e) {
         const lines = reader.result.split('\n').map(function(line){
             return line.split(',');
         });
-        console.log(lines); // AquÌ tienes tu CSV convertido en un array de JavaScript
+        console.log(lines); // Aqu√≠ tienes tu CSV convertido en un array de JavaScript
     };
     reader.readAsText(e.target.files[0]);
 });
