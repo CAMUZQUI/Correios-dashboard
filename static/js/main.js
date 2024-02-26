@@ -1,6 +1,6 @@
 function initMap() {
         
-    fetch('../json/map_styles.json')
+    fetch('../static/json/map_styles.json')
         .then(function(response) {
             return response.json();
         })
