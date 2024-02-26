@@ -11,9 +11,9 @@ function initMap() {
                 center: new google.maps.LatLng(-22.5646, -47.4017),      
                 zoom: 15,          
                 styles: styles,                
-                // Estas opciones ocultan la UI por defecto
+                // Ocultar controles por defecto
                 disableDefaultUI: true,
-                // Aquí puedes personalizar qué controles quieres mostrar
+                // Personalizar controles a mostrar
                 zoomControl: true,
                 zoomControlOptions: {
                     position: google.maps.ControlPosition.LEFT_BOTTOM // Posición del control de zoom
@@ -41,9 +41,9 @@ function initMap() {
                     strokeWeight: 3
                 },
                 map: map
-            });            
-            //directionsRenderer.setMap(map); // Usa el mismo mapa para el renderizador
-            
+            });   
+                     
+            //directionsRenderer.setMap(map); // Usa el mismo mapa para el renderizador            
             
             var directionsRenderer2 = new google.maps.DirectionsRenderer({
                 polylineOptions: {
@@ -59,19 +59,17 @@ function initMap() {
             var waypts = [
                 {location: {lat: -22.5757, lng: -47.4128}, stopover: true},
                 {location: {lat: -22.5568, lng: -47.3939}, stopover: true},
-                // Agrega más waypoints si es necesario
+                // Más waypoints si es necesario
             ];
             
             
             var waypts2 = [
                 {location: {lat: -22.5457, lng: -47.4128}, stopover: true},
                 {location: {lat: -22.5568, lng: -47.4239}, stopover: true},
-                // Agrega más waypoints si es necesario
+                // Más waypoints si es necesario
             ];
-            
-            
-        
-            // Crea una solicitud para el servicio Directions
+                                
+            // Crear solicitud para el servicio Directions
             var request = {
                 origin: start,
                 destination: start,  
@@ -88,28 +86,28 @@ function initMap() {
                 travelMode: 'DRIVING'
             };
         
-            // Calcula la ruta
+            // Calcular la ruta
             directionsService.route(request, function(result, status) {
                 if (status == 'OK') {
                     directionsRenderer.setDirections(result);   
                     
                     console.log(result);                 
-                                        
+                    
+                    // Retrasar visualización de la siguiente ruta              
                     setTimeout(function() {
-                        // Solicita la segunda ruta
+                        // Solicitar otra ruta
                         directionsService.route(request2, function(result, status) {
                             if (status == 'OK') {
                                 directionsRenderer2.setDirections(result);
-                                // Retrasa el ajuste manual del centro y zoom
+                                // Retrasar centrado y zoom del mapa
                                 setTimeout(function() {
                                     //document.getElementById('divGraficas').style.display = 'block';
                                     //initGraf();
-                                    // Establece el centro y el zoom específicos aquí
-                                    //map.panTo(new google.maps.LatLng(-22.5646, -47.4017));
+                                    // Establecer el centro y el zoom
                                     map.setCenter(new google.maps.LatLng(-22.5646, -47.3817)); 
                                     map.setZoom(13.7);
                                     
-                                }, 3500); // Retraso de 500 ms
+                                }, 3500); // Retraso de 3500 ms
                                 setTimeout(function() {
                                     document.getElementById('divGraficas').style.display = 'block';
                                     initGraf();                        
@@ -139,7 +137,7 @@ function initGraf() {
                 data: [12/20, 19/20, 3/20, 5/20, 2/20, 3/20, 9/20], // Datos de la Serie 1
                 borderColor: 'rgb(20, 200, 30)',   //'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(20, 200, 30, 0.2)',  //'rgba(255, 99, 132, 0.2)',
-                fill: true, // Rellena el área bajo la línea
+                fill: true, // Rellenar el área bajo la línea
                 pointRadius: 5, // Tamaño de los marcadores de puntos
                 pointHoverRadius: 8, // Tamaño al pasar el mouse sobre los puntos
             }, {
@@ -163,7 +161,7 @@ function initGraf() {
             },
             {
                 label: 'M\u00E1x', // Nombre que aparecerá en la leyenda
-                //data: [15, 15, 15, 15, 15, 15, 15], // Datos para la línea punteada (usualmente el mismo valor si es un límite horizontal)
+                //data: [15, 15, 15, 15, 15, 15, 15], // Datos para la línea punteada
                 data: [0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75],
                 borderColor: '#F05006', // Color de la línea punteada
                 backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la línea
@@ -202,7 +200,7 @@ function initGraf() {
             plugins: {
                 legend: {
                     labels: {
-                        usePointStyle: true, // Usa el estilo del punto para la leyenda
+                        usePointStyle: true, // Usar el estilo del punto para la leyenda
                         pointStyle: 'rectRounded', // Estilo del punto (cuadrado redondeado)
                         padding: 20, // Espaciado entre elementos de la leyenda
                         boxWidth: 8, // Ancho del cuadro de color en la leyenda
@@ -212,13 +210,13 @@ function initGraf() {
                         generateLabels: function(chart) {
                             const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
                             labels.forEach(label => {
-                                // Verifica si la etiqueta corresponde a la serie que quieres cambiar
+                                // Cambiar marca cuadrada por línea en leyenda de convensiones
                                 if (label.text === 'M\u00E1x' || label.text === 'M\u00EDn') {
-                                    // Cambia el estilo de punto a 'line'
+                                    // Cambiar el estilo de punto a 'line'
                                     label.pointStyle = 'line';
-                                    // Establece el grosor de la línea para la leyenda
+                                    // Establecer el grosor de la línea para la leyenda
                                     label.lineWidth = 2;
-                                    // Establece el patrón de la línea punteada
+                                    // Establecer el patrón de la línea punteada
                                     label.borderDash = [5, 5];
                                 }
                             });
@@ -231,21 +229,21 @@ function initGraf() {
                     text: 'Equil\u00EDbrio e limites',
                     color: 'rgba(255, 255, 255, 0.9)',
                     padding: {
-                        top: 10, // Aumenta la distancia del título desde la parte superior
-                        bottom: 5 // Puedes ajustar la distancia desde la parte inferior si es necesario
+                        top: 10, // Aumentar la distancia del título desde la parte superior
+                        bottom: 5 //Ajustar la distancia desde la parte inferior si es necesario
                     },
-                    font: { // Aquí agregas la configuración de la fuente
+                    font: { // Agregar la configuración de la fuente
                         size: 18 // Tamaño de la fuente del título
                     },
                 },
                 tooltip: {
                     callbacks: {
                         label: function(context) { 
-                            // Obtén el nombre de la serie de datos
+                            // Obtener el nombre de la serie de datos
                             const label = context.dataset.label || '';
-                            // Obtén el valor real del punto de datos
+                            // Obtener el valor real del punto de datos
                             const value = context.raw * 20;
-                            // Combina la etiqueta y el valor para mostrar ambos en el tooltip
+                            // Combinar la etiqueta y el valor para mostrar ambos en el tooltip
                             return `${label}: ${value}`;  //Adicionar código para entregar el valor real al tooltip
                         }
                     }
@@ -267,8 +265,8 @@ function initGraf() {
                     grid: {
                         color: 'rgba(255, 255, 255, 0.2)', // Color de las líneas de la cuadrícula del eje Y
                     },
-                    min: 0, // Límite inferior fijado en 0
-                    max: 1, // Límite superior fijado en 1
+                    min: 0, // Límite inferior en 0
+                    max: 1, // Límite superior en 1
                 }
             }             
         }
@@ -307,14 +305,14 @@ function initGraf() {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        usePointStyle: true, // Usa el estilo del punto para la leyenda
+                        usePointStyle: true, // Usar el estilo del punto para la leyenda
                         pointStyle: 'rectRounded', // Estilo del punto (cuadrado redondeado)
                         padding: 25, // Espaciado entre elementos de la leyenda
                         boxWidth: 8, // Ancho del cuadro de color en la leyenda
                         boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporción, podría omitirse)
                         color: 'rgba(255, 255, 255, 0.9)',
                     },
-                    align: 'center', // Esto alinea la leyenda al inicio (izquierda para 'bottom')
+                    align: 'center', // Alinear la leyenda al inicio (izquierda para 'bottom')
                     
                 },
                 title: {
@@ -322,33 +320,33 @@ function initGraf() {
                     text: 'Qualidade de atendimento',
                     color: 'rgba(255, 255, 255, 0.9)',
                     padding: {
-                        top: 10, // Aumenta la distancia del título desde la parte superior
-                        bottom: 20, // Puedes ajustar la distancia desde la parte inferior si es necesario
+                        top: 10, // Aumentar la distancia del título desde la parte superior
+                        bottom: 20, // Ajustar la distancia desde la parte inferior si es necesario
                     },
-                    font: { // Aquí agregas la configuración de la fuente
+                    font: { // Agregas la configuración de la fuente
                         size: 18 // Tamaño de la fuente del título
                     },
                 },
-                centerText: { // Nuestro plugin personalizado para agregar texto
+                centerText: { // Plugin personalizado para agregar texto de espera
                     text: 'Calculando...' // Texto inicial, se actualizará con el porcentaje
                 },
                 layout: {
                     padding: {
-                        top: 5, // Ajusta según sea necesario para el espacio adicional alrededor del gráfico
+                        top: 5, // Ajustar según sea necesario para el espacio adicional alrededor del gráfico
                     }
                 } 
             }          
         },
-        plugins: [{ // Agregamos el plugin directamente al gráfico
-            id: 'centerText', // Un identificador único para el plugin
-            afterDraw: function(chart) { // La función que se llama después de que el gráfico se dibuja
+        plugins: [{ // Agregar el plugin directamente al gráfico
+            id: 'centerText', // Identificador para el plugin
+            afterDraw: function(chart) { // Función que se llama después de que el gráfico se dibuja
                 let text = chart.options.plugins.centerText.text,
                     ctx = chart.ctx,
                     centerX = (chart.chartArea.left + chart.chartArea.right) / 2,
                     centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
                 ctx.save();
                 ctx.font = '30px Arial';
-                ctx.fillStyle = '#FFF'; // Cambiamos el color a blanco
+                ctx.fillStyle = '#FFF'; // Cambia el color a blanco
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(text, centerX, centerY);
@@ -358,11 +356,11 @@ function initGraf() {
         
     });
     
-    // Ahora calculamos el porcentaje y actualizamos el texto del plugin
+    // Calculamor el porcentaje y actualizar el texto del plugin
     const total = GraficoTorta.data.datasets[0].data.reduce((a, b) => a + b, 0);
     const percentageText = ((GraficoTorta.data.datasets[0].data[0] / total) * 100).toFixed(1) + '%';
     
-    // Actualizamos el texto del plugin y forzamos una actualización del gráfico
+    // Actualizar el texto del plugin y forzar una actualización del gráfico
     GraficoTorta.options.plugins.centerText.text = percentageText;
     GraficoTorta.update();       
             
@@ -375,7 +373,7 @@ document.getElementById('input-csv').addEventListener('change', function(e) {
         const lines = reader.result.split('\n').map(function(line){
             return line.split(',');
         });
-        console.log(lines); // Aquí tienes tu CSV convertido en un array de JavaScript
+        console.log(lines); // CSV convertido en un array de JavaScript
     };
     reader.readAsText(e.target.files[0]);
 });
