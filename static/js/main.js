@@ -1,6 +1,6 @@
 function initMap() {
         
-    fetch('/static/json/map_styles.json')
+    fetch('Correios-dashboard/static/json/map_styles.json')
         .then(function(response) {
             return response.json();
         })
