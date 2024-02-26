@@ -1,8 +1,10 @@
 function initMap() {
 
     const baseUrl = window.location.pathname;
+    // Usar plantilla literal con backticks para incluir la variable en la cadena
+    const jsonFilePath = `${baseUrl}static/json/map_styles.json`.replace('//', '/');
         
-    fetch('${baseUrl}static/json/map_styles.json')
+    fetch(jsonFilePath)
         .then(function(response) {
             return response.json();
         })
