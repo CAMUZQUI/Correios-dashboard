@@ -414,7 +414,7 @@ function initGraf() {
             
 }
 
-
+/*
 document.getElementById('input-csv').addEventListener('change', function(e) {
     const reader = new FileReader();
     reader.onload = function() {
@@ -425,3 +425,4 @@ document.getElementById('input-csv').addEventListener('change', function(e) {
     };
     reader.readAsText(e.target.files[0]);
 });
+*/
