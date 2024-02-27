@@ -34,7 +34,7 @@ function initMap() {
         
             var map = new google.maps.Map(document.getElementById('map'), mapOptions);
             
-            fetch('/static/json/rotas.json')
+            fetch('Correios-dashboard/static/json/rotas.json')
               .then(response => response.json()) // Convierte la respuesta en JSON
               .then(data => {
                   
