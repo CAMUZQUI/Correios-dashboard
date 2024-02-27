@@ -17,6 +17,12 @@ function initMap() {
     var tTot=0;
     var vTot=0;
     var eTot=0;
+    var Ff=0;
+    var Ge=0;
+    var t=0;
+    var Conv=false;
+    var Pop=0;
+    var Rm=0.0;
     
     const baseUrl = window.location.pathname;
     // Usar plantilla literal con backticks para incluir la variable en la cadena
@@ -398,6 +404,13 @@ function initGraf() {
         options: {
             responsive: true,
             cutout: '67%',
+            layout: {
+                padding: {
+                    left: 0, // Establecer según sea necesario
+                    right: 0, // Establecer según sea necesario
+                    // Mantén el top y bottom si es necesario
+                }
+            },
             plugins: {
                 legend: {
                     position: 'bottom',
@@ -419,6 +432,8 @@ function initGraf() {
                     padding: {
                         top: 10, // Aumentar la distancia del título desde la parte superior
                         bottom: 20, // Ajustar la distancia desde la parte inferior si es necesario
+                        raight: 10,
+                        left: 0,
                     },
                     font: { // Agregas la configuración de la fuente
                         size: 18 // Tamaño de la fuente del título
@@ -459,7 +474,21 @@ function initGraf() {
     
     // Actualizar el texto del plugin y forzar una actualización del gráfico
     GraficoTorta.options.plugins.centerText.text = percentageText;
-    GraficoTorta.update();       
+    GraficoTorta.update();   
+    
+    const baseUrl = window.location.pathname;
+    var jsonFilePathStats = `${baseUrl}static/json/rotas_stats.json`.replace('//', '/');    
+    fetch(jsonFilePathStats)
+      .then(response => response.json()) // Convierte la respuesta en JSON
+      .then(data => {    
+          document.getElementById('Ff').textContent = data.final_fitness.toString().substring(0, 8);
+          document.getElementById('Ge').textContent = data.final_generation.toString().substring(0, 8);
+          document.getElementById('t').textContent = data.seconds_processed.toString().substring(0, 8);
+          if(data.converge) document.getElementById('Conv').textContent = "Converge"; else document.getElementById('Conv').textContent = "";
+          document.getElementById('Pop').textContent = data.population_size;
+          document.getElementById('Rm').textContent = data.mutation_rate;
+      })
+      .catch(error => console.error('Error al cargar estadística:', error));
             
 }
 
@@ -480,40 +509,7 @@ document.getElementById('input-json').addEventListener('change', function(e) {
 });
 
 
-/*
-// Función para cargar y transformar el archivo JSON
-async function cargarYTransformarJSON(url) {
-  try {
-    // Cargar el archivo JSON
-    const response = await fetch(url);
-    const data = await response.json();
 
-    // Transformar la estructura
-    const nuevaEstructura = {
-      atendimento: 97.3, // Valor estático, ajusta según necesidad
-      rotas: data.routes.map(route => {
-        // Calcular el volumen total para la ruta
-        const volumenTotal = route.orders.reduce((total, order) => total + order.volume, 0);
-
-        return {
-          id: route.id + 1, // Asume que quieres incrementar el id en 1
-          puntos: route.orders.flatMap(order => [
-            // Transforma cada dirección en un objeto de punto
-            { lat: order.address.latitude, log: order.address.longitude }
-          ]),
-          volume: volumenTotal, // Suma de todos los volúmenes de los pedidos de la ruta
-          tempo: 5, // Valor estático, ajusta según necesidad
-          entregas: route.orders.length // Cantidad de entregas basada en el número de órdenes
-        };
-      })
-    };
-
-    return nuevaEstructura;
-  } catch (error) {
-    console.error("Error al cargar o transformar el JSON:", error);
-  }
-}
-*/
 
 function transformarDatos(datos) {
     try {
@@ -549,7 +545,7 @@ function transformarDatos(datos) {
 function actualizarArchivoGitHub(datosTransformados) {
     // Este es un ejemplo de cómo se podría hacer, pero recuerda no exponer tu PAT
     const url = `https://api.github.com/repos/CAMUZQUI/Correios-dashboard/contents/static/json/rotas.json`;
-    const token = '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'; // ¡Alerta de seguridad!
+    const token = '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'; // ¡Alerta de seguridad!
 
     fetch(url, {
         method: 'GET',
@@ -564,7 +560,7 @@ function actualizarArchivoGitHub(datosTransformados) {
         //const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(datosTransformados)))); // Codifica el nuevo contenido en base64
         const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(datosTransformados, null, 2)))); // El '2' añade la indentación
 
-
+        /*
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -578,6 +574,7 @@ function actualizarArchivoGitHub(datosTransformados) {
             })
         })
         .then(response => response.json())
+        */
         
         document.getElementById('divGraficas').style.display = 'none';
         window.GraficoDeLinea.destroy(); // Destruye el gráfico existente
