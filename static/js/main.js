@@ -143,11 +143,12 @@ function initMap() {
                             //document.getElementById('divGraficas').style.display = 'block';
                             //initGraf();
                             // Establecer el centro y el zoom
-                            map.setCenter(new google.maps.LatLng(-22.5646, -47.3817)); 
+                            //map.setCenter(new google.maps.LatLng(-22.5646, -47.3817));
+                            map.setCenter(new google.maps.LatLng(pontos[0].lat, pontos[0].log)); 
                             map.setZoom(13.7);
                             
                             // Crear el marcador para el depósito
-                            var puntoDeposito = {lat: -22.582608115451517, lng: -47.403629200148984};
+                            var puntoDeposito = {lat: pontos[0].lat, lng: pontos[0].log};                          
                             var marcadorDeposito = new google.maps.Marker({
                                 position: puntoDeposito,
                                 map: map,
