@@ -34,98 +34,140 @@ function initMap() {
         
             var map = new google.maps.Map(document.getElementById('map'), mapOptions);
             
-            
-            // Configura el servicio Directions y el renderer
-            var directionsService = new google.maps.DirectionsService();
-            //var directionsRenderer = new google.maps.DirectionsRenderer();            
-            var directionsRenderer = new google.maps.DirectionsRenderer({
-                polylineOptions: {
-                    strokeColor: 'yellow', // Puedes poner cualquier color en formato hexadecimal   
-                    strokeOpacity: 1.0,                 
-                    strokeWeight: 3
-                },
-                map: map
-            });   
-                     
-            //directionsRenderer.setMap(map); // Usa el mismo mapa para el renderizador            
-            
-            var directionsRenderer2 = new google.maps.DirectionsRenderer({
-                polylineOptions: {
-                    strokeColor: '#43D311', // Puedes poner cualquier color en formato hexadecimal   
-                    strokeOpacity: 1.0,                 
-                    strokeWeight: 3
-                },
-                map: map
-            });  
-            
-            
-            var start = { lat: -22.5646, lng: -47.4017 };
-            var waypts = [
-                {location: {lat: -22.5757, lng: -47.4128}, stopover: true},
-                {location: {lat: -22.5568, lng: -47.3939}, stopover: true},
-                // Más waypoints si es necesario
-            ];
-            
-            
-            var waypts2 = [
-                {location: {lat: -22.5457, lng: -47.4128}, stopover: true},
-                {location: {lat: -22.5568, lng: -47.4239}, stopover: true},
-                // Más waypoints si es necesario
-            ];
+            fetch('/static/json/rotas.json')
+              .then(response => response.json()) // Convierte la respuesta en JSON
+              .then(data => {
+                  
+                var rotas = data.rotas;
                                 
-            // Crear solicitud para el servicio Directions
-            var request = {
-                origin: start,
-                destination: start,  
-                waypoints: waypts,
-                optimizeWaypoints: true,                                  
-                travelMode: 'DRIVING' // Modo de viaje
-            };
-            
-            var request2 = {
-                origin: start,
-                destination: start,  
-                waypoints: waypts2,
-                optimizeWaypoints: true,
-                travelMode: 'DRIVING'
-            };
+                // Iterar sobre todas las rutas
+                for (var i = 0; i < rotas.length; i++) {
+                
+                    // Servicio Directions para procesar 'request'
+                    var directionsService = new google.maps.DirectionsService();                               
+                    let directionsRenderer = new google.maps.DirectionsRenderer({
+                        polylineOptions: {
+                            strokeColor: generarColor2(), // Puedes poner cualquier color en formato hexadecimal   
+                            strokeOpacity: 1.0,                 
+                            strokeWeight: 3
+                        },
+                        suppressMarkers: true,
+                        map: map
+                    });
+                    
+                    var pontos = data.rotas[i].pontos;
+                    var start = {lat: pontos[i].lat, lng: pontos[i].log};
+                    // Preparar los waypoints a partir de los puntos de la ruta
+                    var waypts = pontos.slice(1, -1).map(function(ponto) {
+                        return {
+                            location: {lat: ponto.lat, lng: ponto.log},
+                            stopover: true
+                        };
+                    });
+                    
+                    // Crear la solicitud para el servicio Directions
+                    var request = {
+                        origin: start,
+                        destination: start,
+                        waypoints: waypts,
+                        optimizeWaypoints: true,
+                        travelMode: 'DRIVING' // Modo de viaje
+                    };
+                    
+                    // Calcular la ruta
+                    directionsService.route(request, function(result, status) {
+                        if (status == 'OK') {
+                            directionsRenderer.setDirections(result);   
+                            
+                            // Para cada waypoint colocar un marcador pequeño
+                            // Extrae la ruta
+                            var route = result.routes[0];
+                    
+                            
+                    
+                            // Itera a través de cada leg de la ruta
+                            route.legs.forEach(function(leg) {
+                                // Coloca un marcador en cada paso (punto de giro) de la leg
+                                leg.steps.forEach(function(step) {
+                                    new google.maps.Marker({
+                                        position: step.start_location,
+                                        map: map,
+                                        icon: {
+                                            path: google.maps.SymbolPath.CIRCLE,
+                                            scale: 3, // Tamaño del marcador
+                                            strokeColor: '#333FFF', // Color del borde neón
+                                            fillColor: '#2E9CCC', // Color de relleno neón
+                                            fillOpacity: 0.3, // Opacidad del relleno
+                                            strokeWeight: 0.9 // Grosor del borde
+                                        }
+                                    });
+                                });  
+                            });
         
-            // Calcular la ruta
-            directionsService.route(request, function(result, status) {
-                if (status == 'OK') {
-                    directionsRenderer.setDirections(result);   
+                                                   
+                        }
+                    });
                     
-                    console.log(result);                 
+                    if(i==rotas.length-1){
+                        // Retrasar centrado y zoom del mapa
+                        setTimeout(function() {
+                            //document.getElementById('divGraficas').style.display = 'block';
+                            //initGraf();
+                            // Establecer el centro y el zoom
+                            map.setCenter(new google.maps.LatLng(-22.5646, -47.3817)); 
+                            map.setZoom(13.7);
+                            
+                            // Crear el marcador para el depósito
+                            var puntoDeposito = {lat: -22.582608115451517, lng: -47.403629200148984};
+                            var marcadorDeposito = new google.maps.Marker({
+                                position: puntoDeposito,
+                                map: map,
+                                label: "D",
+                                title: "Depósito"
+                            });
+                            
+                            
+                        }, 3500); // Retraso de 3500 ms
+                        setTimeout(function() {
+                            document.getElementById('divGraficas').style.display = 'block';
+                            initGraf();                        
+                        }, 1500);
+                    }
                     
-                    // Retrasar visualización de la siguiente ruta              
-                    setTimeout(function() {
-                        // Solicitar otra ruta
-                        directionsService.route(request2, function(result, status) {
-                            if (status == 'OK') {
-                                directionsRenderer2.setDirections(result);
-                                // Retrasar centrado y zoom del mapa
-                                setTimeout(function() {
-                                    //document.getElementById('divGraficas').style.display = 'block';
-                                    //initGraf();
-                                    // Establecer el centro y el zoom
-                                    map.setCenter(new google.maps.LatLng(-22.5646, -47.3817)); 
-                                    map.setZoom(13.7);
-                                    
-                                }, 3500); // Retraso de 3500 ms
-                                setTimeout(function() {
-                                    document.getElementById('divGraficas').style.display = 'block';
-                                    initGraf();                        
-                                }, 1500);
-                            }
-                        });                        
-                    }, 1200);                
-                    
+                    // Imprime el volumen de cada ruta
+                    //console.log('Ruta ' + (i+1) + ': Volume = ' + rotas[i].volume);                
+                    //console.log(i); // Imprime la respuesta JSON completa en la consola                
                 }
-            });              
+                  
+                
+              })
+              .catch(error => console.error('Error al cargar las rutas:', error));
+            
+            
+            
+            
+            
+            
+            
+            
+                         
                                             
     });
     
     
+}
+
+function generarColor() {
+    // Generar un color aleatorio en formato hexadecimal
+    let color = "#" + Math.floor(Math.random()*16777215).toString(16);
+    return color;
+}
+
+function generarColor2() {
+    const hue = Math.floor(Math.random() * 360); // Valor entre 0 y 360
+    const saturation = 80 + Math.floor(Math.random() * 20); // 80% a 100%
+    const lightness = 40 + Math.floor(Math.random() * 20); // 40% a 60%
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }
     
 function initGraf() {  
