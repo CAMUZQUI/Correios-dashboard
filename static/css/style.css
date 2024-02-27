@@ -27,6 +27,7 @@ html, body {
   align-items: center; /* Centra verticalmente */
 }
 .bottom-right-container {
+  display: flex;
   position: relative;  
   height: 40.5vh; /* Ajusta la altura de los contenedores */
 }
@@ -140,4 +141,27 @@ canvas {
   .file-upload-wrapper {
     max-width: 100%;
   }
+}
+
+
+.donut-info {
+    position: absolute;  
+    top: 50%;
+    transform: translateY(-50%);
+    left: 30%;
+    width: 70%; /* O el ancho que prefieras */
+    padding: 0px;
+    //background-color: rgba(255, 255, 255, 0.2); /* Ejemplo de color traslúcido */
+    color: white; /* Cambia el color como prefieras */
+    border-radius: 10px; /* Para bordes redondeados */
+    //box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para dar profundidad */
+    text-align: right;
+    /* Agrega más estilos según necesites */
+}
+
+#GraficoDona {
+    position: absolute;  
+    top: 50%;
+    transform: translateY(-50%);
+    left: -5%;   
 }
