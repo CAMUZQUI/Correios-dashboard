@@ -33,8 +33,10 @@ function initMap() {
             };
         
             var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+            jsonFilePath = `${baseUrl}static/json/rotas.json`.replace('//', '/');
             
-            fetch('Correios-dashboard/static/json/rotas.json')
+            fetch(jsonFilePath)
               .then(response => response.json()) // Convierte la respuesta en JSON
               .then(data => {
                   
