@@ -1,12 +1,3 @@
-
-/*
-function showAlert() {
-  alert('Alerta desde act.js!');
-}
-*/
-
-
-
 let labelsR = []; // Para las etiquetas del eje X
 let datos = new Map(); // Mapa para almacenar los datos
 let datosAjusT = []; // Para los datos de las rutas ajustados
@@ -53,11 +44,11 @@ function actMap(data) {
                 // Personalizar controles a mostrar
                 zoomControl: true,
                 zoomControlOptions: {
-                    position: google.maps.ControlPosition.LEFT_BOTTOM // PosiciÛn del control de zoom
+                    position: google.maps.ControlPosition.LEFT_BOTTOM // Posici√≥n del control de zoom
                 },
                 fullscreenControl: true,
                 fullscreenControlOptions: {
-                    position: google.maps.ControlPosition.LEFT_TOP // PosiciÛn del control de zoom
+                    position: google.maps.ControlPosition.LEFT_TOP // Posici√≥n del control de zoom
                 },
                 scaleControl: true,                
                 mapTypeControl: false,                
@@ -123,12 +114,12 @@ function actMap(data) {
                       if (status == 'OK') {
                           directionsRenderer.setDirections(result);   
                           
-                          // Para cada waypoint colocar un marcador pequeÒo
+                          // Para cada waypoint colocar un marcador peque√±o
                           // Extrae la ruta
                           var route = result.routes[0];                   
                           
                   
-                          // Itera a travÈs de cada leg de la ruta
+                          // Itera a trav√©s de cada leg de la ruta
                           route.legs.forEach(function(leg) {
                               // Coloca un marcador en cada paso (punto de giro) de la leg
                               leg.steps.forEach(function(step) {
@@ -137,9 +128,9 @@ function actMap(data) {
                                       map: map,
                                       icon: {
                                           path: google.maps.SymbolPath.CIRCLE,
-                                          scale: 3, // TamaÒo del marcador
-                                          strokeColor: '#333FFF', // Color del borde neÛn 
-                                          fillColor: '#FE020E', // Color de relleno neÛn '#2E9CCC'
+                                          scale: 3, // Tama√±o del marcador
+                                          strokeColor: '#333FFF', // Color del borde ne√≥n 
+                                          fillColor: '#FE020E', // Color de relleno ne√≥n '#2E9CCC'
                                           fillOpacity: 0.7, // Opacidad del relleno
                                           strokeWeight: 1.3 // Grosor del borde
                                       }
@@ -161,13 +152,13 @@ function actMap(data) {
                           map.setCenter(new google.maps.LatLng(pontos[0].lat, pontos[0].log + 0.027)); 
                           map.setZoom(13.7);
                           
-                          // Crear el marcador para el depÛsito
+                          // Crear el marcador para el dep√≥sito
                           var puntoDeposito = {lat: pontos[0].lat, lng: pontos[0].log}; //{lat: -22.582608115451517, lng: -47.403629200148984};
                           var marcadorDeposito = new google.maps.Marker({
                               position: puntoDeposito,
                               map: map,
                               label: "D",
-                              title: "DepÛsito"
+                              title: "Dep√≥sito"
                           });
                           
                           
@@ -180,10 +171,10 @@ function actMap(data) {
                   
                   // Actualizar arreglos
                   labelsR.push('Rota ' + (i+1));
-                  //Por ahora esta cuenta r·pida. DespuÈs se mejora la distribuciÛn y visualizaciÛn
-                  datosAjusT.push(rotas[i].tempo/tTot*rotas.length/2); // Normalizar o ajustar valores antes de aÒadirlo
-                  datosAjusV.push(rotas[i].volume/vTot*rotas.length/2); // Normalizar o ajustar valores antes de aÒadirlo
-                  datosAjusE.push(rotas[i].entregas/eTot*rotas.length/2); // Normalizar o ajustar valores antes de aÒadirlo
+                  //Por ahora esta cuenta r√°pida. Despu√©s se mejora la distribuci√≥n y visualizaci√≥n
+                  datosAjusT.push(rotas[i].tempo/tTot*rotas.length/2); // Normalizar o ajustar valores antes de a√±adirlo
+                  datosAjusV.push(rotas[i].volume/vTot*rotas.length/2); // Normalizar o ajustar valores antes de a√±adirlo
+                  datosAjusE.push(rotas[i].entregas/eTot*rotas.length/2); // Normalizar o ajustar valores antes de a√±adirlo
                   datos.get('Tempo').push(rotas[i].tempo); 
                   datos.get('Volume').push(rotas[i].volume);
                   datos.get('Entregas').push(rotas[i].entregas);
@@ -235,9 +226,9 @@ function initGraf() {
                 data: datosAjusT, // Datos de la Serie 1
                 borderColor: 'rgb(20, 200, 30)',   //'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(20, 200, 30, 0.2)',  //'rgba(255, 99, 132, 0.2)',
-                fill: true, // Rellenar el ·rea bajo la lÌnea
-                pointRadius: 5, // TamaÒo de los marcadores de puntos
-                pointHoverRadius: 8, // TamaÒo al pasar el mouse sobre los puntos
+                fill: true, // Rellenar el √°rea bajo la l√≠nea
+                pointRadius: 5, // Tama√±o de los marcadores de puntos
+                pointHoverRadius: 8, // Tama√±o al pasar el mouse sobre los puntos
             }, {
                 label: 'Volume',
                 //data: [7, 11, 5, 8, 3, 7, 6], // Datos de la Serie 2
@@ -258,28 +249,28 @@ function initGraf() {
                 pointHoverRadius: 8,
             },
             {
-                label: 'M\u00E1x', // Nombre que aparecer· en la leyenda
-                //data: [15, 15, 15, 15, 15, 15, 15], // Datos para la lÌnea punteada
+                label: 'M\u00E1x', // Nombre que aparecer√° en la leyenda
+                //data: [15, 15, 15, 15, 15, 15, 15], // Datos para la l√≠nea punteada
                 data: max,
-                borderColor: '#F05006', // Color de la lÌnea punteada
-                backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la lÌnea
-                borderWidth: 2, // Ancho de la lÌnea
-                borderDash: [5, 5], // PatrÛn de la lÌnea punteada
+                borderColor: '#F05006', // Color de la l√≠nea punteada
+                backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la l√≠nea
+                borderWidth: 2, // Ancho de la l√≠nea
+                borderDash: [5, 5], // Patr√≥n de la l√≠nea punteada
                 pointRadius: 0, // Radio del punto (0 para que no se muestren puntos)
-                fill: false, // Especifica que no se rellene el ·rea bajo la lÌnea
-                tension: 0, // LÌneas rectas sin curvatura
+                fill: false, // Especifica que no se rellene el √°rea bajo la l√≠nea
+                tension: 0, // L√≠neas rectas sin curvatura
             },
             {
-                label: 'M\u00EDn', // Nombre que aparecer· en la leyenda
-                //data: [5, 5, 5, 5, 5, 5, 5], // Datos para la lÌnea punteada (usualmente el mismo valor si es un lÌmite horizontal)
+                label: 'M\u00EDn', // Nombre que aparecer√° en la leyenda
+                //data: [5, 5, 5, 5, 5, 5, 5], // Datos para la l√≠nea punteada (usualmente el mismo valor si es un l√≠mite horizontal)
                 data: min,
-                borderColor: '#C0C0C7', // Color de la lÌnea punteada
-                backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la lÌnea
-                borderWidth: 2, // Ancho de la lÌnea
-                borderDash: [5, 5], // PatrÛn de la lÌnea punteada
+                borderColor: '#C0C0C7', // Color de la l√≠nea punteada
+                backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la l√≠nea
+                borderWidth: 2, // Ancho de la l√≠nea
+                borderDash: [5, 5], // Patr√≥n de la l√≠nea punteada
                 pointRadius: 0, // Radio del punto (0 para que no se muestren puntos)
-                fill: false, // Especifica que no se rellene el ·rea bajo la lÌnea
-                tension: 0, // LÌneas rectas sin curvatura
+                fill: false, // Especifica que no se rellene el √°rea bajo la l√≠nea
+                tension: 0, // L√≠neas rectas sin curvatura
             }]
         },
         options: {
@@ -302,19 +293,19 @@ function initGraf() {
                         pointStyle: 'rectRounded', // Estilo del punto (cuadrado redondeado)
                         padding: 20, // Espaciado entre elementos de la leyenda
                         boxWidth: 8, // Ancho del cuadro de color en la leyenda
-                        boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporciÛn, podrÌa omitirse)
+                        boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporci√≥n, podr√≠a omitirse)
                         color: 'rgba(255, 255, 255, 0.9)',
                         // Personaliza las etiquetas de la leyenda
                         generateLabels: function(chart) {
                             const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
                             labels.forEach(label => {
-                                // Cambiar marca cuadrada por lÌnea en leyenda de convensiones
+                                // Cambiar marca cuadrada por l√≠nea en leyenda de convensiones
                                 if (label.text === 'M\u00E1x' || label.text === 'M\u00EDn') {
                                     // Cambiar el estilo de punto a 'line'
                                     label.pointStyle = 'line';
-                                    // Establecer el grosor de la lÌnea para la leyenda
+                                    // Establecer el grosor de la l√≠nea para la leyenda
                                     label.lineWidth = 2;
-                                    // Establecer el patrÛn de la lÌnea punteada
+                                    // Establecer el patr√≥n de la l√≠nea punteada
                                     label.borderDash = [5, 5];
                                 }
                             });
@@ -327,11 +318,11 @@ function initGraf() {
                     text: 'Equil\u00EDbrio e limites',
                     color: 'rgba(255, 255, 255, 0.9)',
                     padding: {
-                        top: 10, // Aumentar la distancia del tÌtulo desde la parte superior
+                        top: 10, // Aumentar la distancia del t√≠tulo desde la parte superior
                         bottom: 5 //Ajustar la distancia desde la parte inferior si es necesario
                     },
-                    font: { // Agregar la configuraciÛn de la fuente
-                        size: 18 // TamaÒo de la fuente del tÌtulo
+                    font: { // Agregar la configuraci√≥n de la fuente
+                        size: 18 // Tama√±o de la fuente del t√≠tulo
                     },
                 },
                 tooltip: {
@@ -339,14 +330,14 @@ function initGraf() {
                         label: function(context) { 
                             // Obtener el nombre de la serie de datos
                             const label = context.dataset.label || '';
-                            // Obtener Ìndice de dato
+                            // Obtener √≠ndice de dato
                             const index = context.dataIndex;
-                            // Acceder a los valores del label especÌfico
+                            // Acceder a los valores del label espec√≠fico
                             const valores = datos.get(label);
                             // Obtener el valor real del punto de datos
                             const value = valores[index];
                             // Combinar la etiqueta y el valor para mostrar ambos en el tooltip
-                            return `${label}: ${value}`;  //Adicionar cÛdigo para entregar el valor real al tooltip
+                            return `${label}: ${value}`;  //Adicionar c√≥digo para entregar el valor real al tooltip
                         }
                     }
                 }               
@@ -357,7 +348,7 @@ function initGraf() {
                         color: 'rgba(255, 255, 255, 0.9)', // Color del texto de los ticks del eje X
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)', // Color de las lÌneas de la cuadrÌcula del eje X
+                        color: 'rgba(255, 255, 255, 0.2)', // Color de las l√≠neas de la cuadr√≠cula del eje X
                     }
                 },
                 y: {
@@ -365,10 +356,10 @@ function initGraf() {
                         color: 'rgba(255, 255, 255, 0.9)', // Color del texto de los ticks del eje Y
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)', // Color de las lÌneas de la cuadrÌcula del eje Y
+                        color: 'rgba(255, 255, 255, 0.2)', // Color de las l√≠neas de la cuadr√≠cula del eje Y
                     },
-                    min: 0, // LÌmite inferior en 0
-                    max: 1, // LÌmite superior en 1
+                    min: 0, // L√≠mite inferior en 0
+                    max: 1, // L√≠mite superior en 1
                 }
             }             
         }
@@ -384,7 +375,7 @@ function initGraf() {
             labels: ['Atendido', 'N\u00E3o atendido'],
             datasets: [{
                 label: 'Porcentaje',
-                data: [atendimiento, 100.0-atendimiento], // Estos valores deberÌan ser din·micos
+                data: [atendimiento, 100.0-atendimiento], // Estos valores deber√≠an ser din√°micos
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.2)',
                     'rgba(255, 206, 86, 0.2)',
@@ -411,7 +402,7 @@ function initGraf() {
                         pointStyle: 'rectRounded', // Estilo del punto (cuadrado redondeado)
                         padding: 25, // Espaciado entre elementos de la leyenda
                         boxWidth: 8, // Ancho del cuadro de color en la leyenda
-                        boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporciÛn, podrÌa omitirse)
+                        boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporci√≥n, podr√≠a omitirse)
                         color: 'rgba(255, 255, 255, 0.9)',
                     },
                     align: 'center', // Alinear la leyenda al inicio (izquierda para 'bottom')
@@ -422,26 +413,26 @@ function initGraf() {
                     text: 'Qualidade de atendimento',
                     color: 'rgba(255, 255, 255, 0.9)',
                     padding: {
-                        top: 10, // Aumentar la distancia del tÌtulo desde la parte superior
+                        top: 10, // Aumentar la distancia del t√≠tulo desde la parte superior
                         bottom: 20, // Ajustar la distancia desde la parte inferior si es necesario
                     },
-                    font: { // Agregas la configuraciÛn de la fuente
-                        size: 18 // TamaÒo de la fuente del tÌtulo
+                    font: { // Agregas la configuraci√≥n de la fuente
+                        size: 18 // Tama√±o de la fuente del t√≠tulo
                     },
                 },
                 centerText: { // Plugin personalizado para agregar texto de espera
-                    text: 'Calculando...' // Texto inicial, se actualizar· con el porcentaje
+                    text: 'Calculando...' // Texto inicial, se actualizar√° con el porcentaje
                 },
                 layout: {
                     padding: {
-                        top: 5, // Ajustar seg˙n sea necesario para el espacio adicional alrededor del gr·fico
+                        top: 5, // Ajustar seg√∫n sea necesario para el espacio adicional alrededor del gr√°fico
                     }
                 } 
             }          
         },
-        plugins: [{ // Agregar el plugin directamente al gr·fico
+        plugins: [{ // Agregar el plugin directamente al gr√°fico
             id: 'centerText', // Identificador para el plugin
-            afterDraw: function(chart) { // FunciÛn que se llama despuÈs de que el gr·fico se dibuja
+            afterDraw: function(chart) { // Funci√≥n que se llama despu√©s de que el gr√°fico se dibuja
                 let text = chart.options.plugins.centerText.text,
                     ctx = chart.ctx,
                     centerX = (chart.chartArea.left + chart.chartArea.right) / 2,
@@ -462,7 +453,7 @@ function initGraf() {
     const total = GraficoTorta.data.datasets[0].data.reduce((a, b) => a + b, 0);
     const percentageText = ((GraficoTorta.data.datasets[0].data[0] / total) * 100).toFixed(1) + '%';
     
-    // Actualizar el texto del plugin y forzar una actualizaciÛn del gr·fico
+    // Actualizar el texto del plugin y forzar una actualizaci√≥n del gr√°fico
     GraficoTorta.options.plugins.centerText.text = percentageText;
     GraficoTorta.update();       
             
