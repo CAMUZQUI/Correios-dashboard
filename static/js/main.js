@@ -1,4 +1,17 @@
+let labelsR = []; // Para las etiquetas del eje X
+let datos = new Map(); // Mapa para almacenar los datos
+let datosAjusT = []; // Para los datos de las rutas ajustados
+let datosAjusV = [];  
+let datosAjusE = [];
+let max = [];
+let min = [];
+var atendimiento = 0;
+
 function initMap() {
+
+    var tTot=0;
+    var vTot=0;
+    var eTot=0;
 
     const baseUrl = window.location.pathname;
     // Usar plantilla literal con backticks para incluir la variable en la cadena
@@ -40,8 +53,22 @@ function initMap() {
               .then(response => response.json()) // Convierte la respuesta en JSON
               .then(data => {
                   
+                atendimiento = data.atendimento;
                 var rotas = data.rotas;
-                                
+                
+                // Para valores totales de cada ruta (sumatorias)
+                for (var i = 0; i < rotas.length; i++) {
+                    tTot+=rotas[i].tempo;
+                    vTot+=rotas[i].volume;
+                    eTot+=rotas[i].entregas;
+                    max.push(0.75);
+                    min.push(0.25);
+                }
+                
+                datos.set('Tempo', []);
+                datos.set('Volume', []);
+                datos.set('Entregas', []);
+                                                
                 // Iterar sobre todas las rutas
                 for (var i = 0; i < rotas.length; i++) {
                 
@@ -76,6 +103,7 @@ function initMap() {
                         travelMode: 'DRIVING' // Modo de viaje
                     };
                     
+                    
                     // Calcular la ruta
                     directionsService.route(request, function(result, status) {
                         if (status == 'OK') {
@@ -83,8 +111,7 @@ function initMap() {
                             
                             // Para cada waypoint colocar un marcador pequeño
                             // Extrae la ruta
-                            var route = result.routes[0];
-                    
+                            var route = result.routes[0];                   
                             
                     
                             // Itera a través de cada leg de la ruta
@@ -97,10 +124,10 @@ function initMap() {
                                         icon: {
                                             path: google.maps.SymbolPath.CIRCLE,
                                             scale: 3, // Tamaño del marcador
-                                            strokeColor: '#333FFF', // Color del borde neón
-                                            fillColor: '#2E9CCC', // Color de relleno neón
-                                            fillOpacity: 0.3, // Opacidad del relleno
-                                            strokeWeight: 0.9 // Grosor del borde
+                                            strokeColor: '#333FFF', // Color del borde neón 
+                                            fillColor: '#FE020E', // Color de relleno neón '#2E9CCC'
+                                            fillOpacity: 0.7, // Opacidad del relleno
+                                            strokeWeight: 1.3 // Grosor del borde
                                         }
                                     });
                                 });  
@@ -129,24 +156,34 @@ function initMap() {
                             });
                             
                             
-                        }, 3500); // Retraso de 3500 ms
+                        }, 4500); // Retraso de 3500 ms
                         setTimeout(function() {
                             document.getElementById('divGraficas').style.display = 'block';
                             initGraf();                        
-                        }, 1500);
-                    }
+                        }, 2500);
+                    }              
+                    
+                    // Actualizar arreglos
+                    labelsR.push('Rota ' + (i+1));
+                    //Por ahora esta cuenta rápida. Después se mejora la distribución y visualización
+                    datosAjusT.push(rotas[i].tempo/tTot*rotas.length/2); // Normalizar o ajustar valores antes de añadirlo
+                    datosAjusV.push(rotas[i].volume/vTot*rotas.length/2); // Normalizar o ajustar valores antes de añadirlo
+                    datosAjusE.push(rotas[i].entregas/eTot*rotas.length/2); // Normalizar o ajustar valores antes de añadirlo
+                    datos.get('Tempo').push(rotas[i].tempo); 
+                    datos.get('Volume').push(rotas[i].volume);
+                    datos.get('Entregas').push(rotas[i].entregas);
+                    
+
                     
                     // Imprime el volumen de cada ruta
                     //console.log('Ruta ' + (i+1) + ': Volume = ' + rotas[i].volume);                
-                    //console.log(i); // Imprime la respuesta JSON completa en la consola                
+                    //console.log(i); // Imprime la respuesta JSON completa en la consola 
+                                   
                 }
                   
                 
               })
               .catch(error => console.error('Error al cargar las rutas:', error));
-            
-            
-            
             
             
             
@@ -178,20 +215,20 @@ function initGraf() {
     const GraficoDeLinea = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Rota 1', 'Rota 2', 'Rota 3', 'Rota 4', 'Rota 5', 'Rota 6', 'Rota 7'], // Eje X
+            labels: labelsR, // Eje X
             datasets: [{
                 label: 'Tempo',
                 //data: [12, 19, 3, 5, 2, 3, 9], // Datos de la Serie 1
-                data: [12/20, 19/20, 3/20, 5/20, 2/20, 3/20, 9/20], // Datos de la Serie 1
+                data: datosAjusT, // Datos de la Serie 1
                 borderColor: 'rgb(20, 200, 30)',   //'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(20, 200, 30, 0.2)',  //'rgba(255, 99, 132, 0.2)',
                 fill: true, // Rellenar el área bajo la línea
                 pointRadius: 5, // Tamaño de los marcadores de puntos
                 pointHoverRadius: 8, // Tamaño al pasar el mouse sobre los puntos
             }, {
-                label: 'Capacidade',
+                label: 'Volume',
                 //data: [7, 11, 5, 8, 3, 7, 6], // Datos de la Serie 2
-                data: [7/20, 11/20, 5/20, 8/20, 3/20, 7/20, 6/20],
+                data: datosAjusV,
                 borderColor: 'rgb(54, 162, 235)',
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 fill: true,
@@ -200,7 +237,7 @@ function initGraf() {
             }, {
                 label: 'Entregas',
                 //data: [4, 14, 11, 2, 5, 4, 10], // Datos de la Serie 3
-                data: [4/20, 14/20, 11/20, 2/20, 5/20, 4/20, 10/20],
+                data: datosAjusE,
                 borderColor: 'rgb(255, 206, 86)',
                 backgroundColor: 'rgba(255, 206, 86, 0.2)',
                 fill: true,
@@ -210,7 +247,7 @@ function initGraf() {
             {
                 label: 'M\u00E1x', // Nombre que aparecerá en la leyenda
                 //data: [15, 15, 15, 15, 15, 15, 15], // Datos para la línea punteada
-                data: [0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75],
+                data: max,
                 borderColor: '#F05006', // Color de la línea punteada
                 backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la línea
                 borderWidth: 2, // Ancho de la línea
@@ -222,7 +259,7 @@ function initGraf() {
             {
                 label: 'M\u00EDn', // Nombre que aparecerá en la leyenda
                 //data: [5, 5, 5, 5, 5, 5, 5], // Datos para la línea punteada (usualmente el mismo valor si es un límite horizontal)
-                data: [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25],
+                data: min,
                 borderColor: '#C0C0C7', // Color de la línea punteada
                 backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la línea
                 borderWidth: 2, // Ancho de la línea
@@ -289,8 +326,12 @@ function initGraf() {
                         label: function(context) { 
                             // Obtener el nombre de la serie de datos
                             const label = context.dataset.label || '';
+                            // Obtener índice de dato
+                            const index = context.dataIndex;
+                            // Acceder a los valores del label específico
+                            const valores = datos.get(label);
                             // Obtener el valor real del punto de datos
-                            const value = context.raw * 20;
+                            const value = valores[index];
                             // Combinar la etiqueta y el valor para mostrar ambos en el tooltip
                             return `${label}: ${value}`;  //Adicionar código para entregar el valor real al tooltip
                         }
@@ -330,7 +371,7 @@ function initGraf() {
             labels: ['Atendido', 'N\u00E3o atendido'],
             datasets: [{
                 label: 'Porcentaje',
-                data: [97, 3], // Estos valores deberían ser dinámicos
+                data: [atendimiento, 100.0-atendimiento], // Estos valores deberían ser dinámicos
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.2)',
                     'rgba(255, 206, 86, 0.2)',
