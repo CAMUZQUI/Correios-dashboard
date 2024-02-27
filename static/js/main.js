@@ -34,9 +34,9 @@ function initMap() {
         
             var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-            jsonFilePath = `${baseUrl}static/json/rotas.json`.replace('//', '/');
+            var jsonFilePathRotas = `${baseUrl}static/json/rotas.json`.replace('//', '/');
             
-            fetch(jsonFilePath)
+            fetch(jsonFilePathRotas)
               .then(response => response.json()) // Convierte la respuesta en JSON
               .then(data => {
                   
