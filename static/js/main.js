@@ -144,7 +144,7 @@ function initMap() {
                             //initGraf();
                             // Establecer el centro y el zoom
                             //map.setCenter(new google.maps.LatLng(-22.5646, -47.3817));
-                            map.setCenter(new google.maps.LatLng(pontos[0].lat, pontos[0].log + 0.03)); 
+                            map.setCenter(new google.maps.LatLng(pontos[0].lat, pontos[0].log + 0.025)); 
                             map.setZoom(13.7);
                             
                             // Crear el marcador para el depósito
