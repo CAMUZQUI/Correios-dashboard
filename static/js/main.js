@@ -148,7 +148,7 @@ function initMap() {
                             map.setZoom(13.7);
                             
                             // Crear el marcador para el depósito
-                            var puntoDeposito = {lat: pontos[0].lat, lng: pontos[0].log - 0.01};                          
+                            var puntoDeposito = {lat: pontos[0].lat, lng: pontos[0].log - 0.03};                          
                             var marcadorDeposito = new google.maps.Marker({
                                 position: puntoDeposito,
                                 map: map,
