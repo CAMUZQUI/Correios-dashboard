@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    
+    <title>Correios - Dashboard</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Panel del mapa -->
+        <div id="map" class="map-container">
+            <!-- Canvas del mapa -->
+        </div>
+        
+        <div id="divGraficas" class="graphs-container">
+            <!-- Panel de la gráfica de línea -->
+            <div id= "top-right-container" class="top-right-container">
+                <canvas id="GraficoDeLinea" ></canvas>
+            </div>
+            
+            <!-- Panel central de información -->
+            <div id= "center-right-container" class="center-right-container">
+                <div class="file-upload-wrapper">
+                  <input type="file" id="input-json" class="file-input" accept=".json"/>
+                  <label for="input-file" class="file-label">
+                    <i class="fa fa-upload"></i> Abrir solução <i>json</i>
+                  </label>
+                </div>
+
+                <!-- <input type="file" id="input-json" accept=".csv"> -->
+            </div>
+    
+            <!-- Panel del gráfico de dona -->
+            <div id= "bottom-right-container" class="bottom-right-container">
+                <canvas id="GraficoDona"></canvas>
+            </div>
+        </div>
+        
+    </div>
+    
+    
+    <script src="static/js/act.js"></script>
+    <script src="static/js/main.js"></script>   
+    
+        
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ API_KEY }}&callback=initMap"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>   
+    
+</body>
+</html>
