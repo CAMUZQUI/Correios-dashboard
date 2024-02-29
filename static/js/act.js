@@ -62,7 +62,7 @@ function actMap(data) {
               var rotas = data.rotas;
               
               // Para valores totales de cada ruta (sumatorias)
-              for (var i = 0; i < rotas.length; i++) { 
+              for (var i = 0; i < rotas.length; i++) {
                   /*
                   tTot+=rotas[i].tempo;
                   vTot+=rotas[i].volume;
@@ -85,8 +85,6 @@ function actMap(data) {
               //cTot=-1;                               
               // Iterar sobre todas las rutas
               for (var i = 0; i < rotas.length; i++) {
-              
-                  vectorColores.push(generarColor2());
               
                   // Servicio Directions para procesar 'request'
                   var directionsService = new google.maps.DirectionsService();                               
