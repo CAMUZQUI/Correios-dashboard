@@ -165,3 +165,44 @@ canvas {
     transform: translateY(-50%);
     left: -5%;   
 }
+
+
+
+
+select.custom-select {
+  display: block;
+  background-color: rgba(255, 255, 255, 0.1); /* Fondo traslúcido */
+  color: #fff;
+  border-radius: 17px; /* Bordes redondeados */
+  text-align: center;
+  padding: 15px;
+  position: relative;
+  z-index: 1;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  backdrop-filter: blur(5px); /* Efecto traslúcido */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* Sombra suave */
+               0 0 15px rgba(48, 105, 152, 0.5); /* Glow effect */
+}
+
+/* Estilos para la flecha desplegable del select */
+select.custom-select::-ms-expand {
+  display: none;
+}
+select.custom-select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+
+
+/* Estilo para las opciones dentro del desplegable */
+.custom-select option {
+  background: rgba(0, 0, 0, 0.7); /* Color de fondo de las opciones */
+  color: white; /* Color del texto */
+}
+
+/* Cambiar el color de fondo al pasar el mouse */
+.custom-select option:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
