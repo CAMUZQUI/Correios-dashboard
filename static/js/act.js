@@ -110,12 +110,15 @@ function actMap(data) {
                       };
                   });
                   
+                  
+                  var oW=false;
+                  if(rotas.length==1) oW=true;
                   // Crear la solicitud para el servicio Directions
                   var request = {
                       origin: start,
                       destination: start,
                       waypoints: waypts,
-                      optimizeWaypoints: false,
+                      optimizeWaypoints: oW,
                       travelMode: 'DRIVING' // Modo de viaje
                   };
                   
