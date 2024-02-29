@@ -111,7 +111,7 @@ function actMap(data) {
                   });
                   
                   
-                  var oW=false;
+                  var oW=true;
                   if(rotas.length==1) oW=true;
                   // Crear la solicitud para el servicio Directions
                   var request = {
