@@ -50,11 +50,11 @@ function initMap() {
                 // Personalizar controles a mostrar
                 zoomControl: true,
                 zoomControlOptions: {
-                    position: google.maps.ControlPosition.LEFT_BOTTOM // Posición del control de zoom
+                    position: google.maps.ControlPosition.LEFT_BOTTOM // PosiciÃ³n del control de zoom
                 },
                 fullscreenControl: true,
                 fullscreenControlOptions: {
-                    position: google.maps.ControlPosition.LEFT_TOP // Posición del control de zoom
+                    position: google.maps.ControlPosition.LEFT_TOP // PosiciÃ³n del control de zoom
                 },
                 scaleControl: true,                
                 mapTypeControl: false,                
@@ -81,7 +81,7 @@ function initMap() {
                     vTot+=rotas[i].volume;
                     eTot+=rotas[i].entregas;
                     /*
-                    //Por ahora se modifica porque no está en solución
+                    //Por ahora se modifica porque no estÃ¡ en soluciÃ³n
                     data.rotas[i].tempo=Math.round(Math.random() * 2) + 5;
                     tTot+=data.rotas[i].tempo;
                     vTot+=rotas[i].volume;
@@ -129,7 +129,7 @@ function initMap() {
                         origin: start,
                         destination: start,
                         waypoints: waypts,
-                        optimizeWaypoints: false,
+                        optimizeWaypoints: true,
                         travelMode: 'DRIVING' // Modo de viaje
                     };
                     
@@ -139,20 +139,20 @@ function initMap() {
                         if (status == 'OK') {
                             directionsRenderer.setDirections(result);   
                             
-                            // Para cada waypoint colocar un marcador pequeño
+                            // Para cada waypoint colocar un marcador pequeÃ±o
                             // Extrae la ruta
                             var route = result.routes[0];                            
                             
-                            // Itera a través de cada leg de la ruta
+                            // Itera a travÃ©s de cada leg de la ruta
                             route.legs.forEach(function(leg) {                                
                                 new google.maps.Marker({
                                     position: leg.start_location,
                                     map: map,
                                     icon: {
                                         path: google.maps.SymbolPath.CIRCLE,
-                                        scale: 3, // Tamaño del marcador
-                                        strokeColor: '#333FFF', // Color del borde neón 
-                                        fillColor: '#FE020E', // Color de relleno neón '#2E9CCC'
+                                        scale: 3, // TamaÃ±o del marcador
+                                        strokeColor: '#333FFF', // Color del borde neÃ³n 
+                                        fillColor: '#FE020E', // Color de relleno neÃ³n '#2E9CCC'
                                         fillOpacity: 0.7, // Opacidad del relleno
                                         strokeWeight: 1.3 // Grosor del borde
                                     }
@@ -173,13 +173,13 @@ function initMap() {
                             map.setCenter(new google.maps.LatLng(pontos[0].lat, pontos[0].log + 0.027)); 
                             map.setZoom(13.7);
                             
-                            // Crear el marcador para el depósito
+                            // Crear el marcador para el depÃ³sito
                             var puntoDeposito = {lat: pontos[0].lat, lng: pontos[0].log}; //{lat: -22.582608115451517, lng: -47.403629200148984};
                             var marcadorDeposito = new google.maps.Marker({
                                 position: puntoDeposito,
                                 map: map,
                                 label: "D",
-                                title: "Depósito"
+                                title: "DepÃ³sito"
                             });
                             
                             
@@ -195,10 +195,10 @@ function initMap() {
                     
                     // Actualizar arreglos
                     labelsR.push('Rota ' + (i+1));
-                    //Por ahora esta cuenta rápida. Después se mejora la distribución y visualización
-                    datosAjusT.push(rotas[i].tempo/tTot*rotas.length/2); // Normalizar o ajustar valores antes de añadirlo
-                    datosAjusV.push(rotas[i].volume/vTot*rotas.length/2); // Normalizar o ajustar valores antes de añadirlo
-                    datosAjusE.push(rotas[i].entregas/eTot*rotas.length/2); // Normalizar o ajustar valores antes de añadirlo
+                    //Por ahora esta cuenta rÃ¡pida. DespuÃ©s se mejora la distribuciÃ³n y visualizaciÃ³n
+                    datosAjusT.push(rotas[i].tempo/tTot*rotas.length/2); // Normalizar o ajustar valores antes de aÃ±adirlo
+                    datosAjusV.push(rotas[i].volume/vTot*rotas.length/2); // Normalizar o ajustar valores antes de aÃ±adirlo
+                    datosAjusE.push(rotas[i].entregas/eTot*rotas.length/2); // Normalizar o ajustar valores antes de aÃ±adirlo
                     datos.get('Tempo').push(rotas[i].tempo); 
                     datos.get('Volume').push(rotas[i].volume);
                     datos.get('Entregas').push(rotas[i].entregas);
@@ -254,9 +254,9 @@ function initGraf() {
                 data: datosAjusT, // Datos de la Serie 1
                 borderColor: 'rgb(20, 200, 30)',   //'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(20, 200, 30, 0.2)',  //'rgba(255, 99, 132, 0.2)',
-                fill: true, // Rellenar el área bajo la línea
-                pointRadius: 5, // Tamaño de los marcadores de puntos
-                pointHoverRadius: 8, // Tamaño al pasar el mouse sobre los puntos
+                fill: true, // Rellenar el Ã¡rea bajo la lÃ­nea
+                pointRadius: 5, // TamaÃ±o de los marcadores de puntos
+                pointHoverRadius: 8, // TamaÃ±o al pasar el mouse sobre los puntos
             }, {
                 label: 'Volume',
                 //data: [7, 11, 5, 8, 3, 7, 6], // Datos de la Serie 2
@@ -277,28 +277,28 @@ function initGraf() {
                 pointHoverRadius: 8,
             },
             {
-                label: 'M\u00E1x', // Nombre que aparecerá en la leyenda
-                //data: [15, 15, 15, 15, 15, 15, 15], // Datos para la línea punteada
+                label: 'M\u00E1x', // Nombre que aparecerÃ¡ en la leyenda
+                //data: [15, 15, 15, 15, 15, 15, 15], // Datos para la lÃ­nea punteada
                 data: max,
-                borderColor: '#F05006', // Color de la línea punteada
-                backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la línea
-                borderWidth: 2, // Ancho de la línea
-                borderDash: [5, 5], // Patrón de la línea punteada
+                borderColor: '#F05006', // Color de la lÃ­nea punteada
+                backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la lÃ­nea
+                borderWidth: 2, // Ancho de la lÃ­nea
+                borderDash: [5, 5], // PatrÃ³n de la lÃ­nea punteada
                 pointRadius: 0, // Radio del punto (0 para que no se muestren puntos)
-                fill: false, // Especifica que no se rellene el área bajo la línea
-                tension: 0, // Líneas rectas sin curvatura
+                fill: false, // Especifica que no se rellene el Ã¡rea bajo la lÃ­nea
+                tension: 0, // LÃ­neas rectas sin curvatura
             },
             {
-                label: 'M\u00EDn', // Nombre que aparecerá en la leyenda
-                //data: [5, 5, 5, 5, 5, 5, 5], // Datos para la línea punteada (usualmente el mismo valor si es un límite horizontal)
+                label: 'M\u00EDn', // Nombre que aparecerÃ¡ en la leyenda
+                //data: [5, 5, 5, 5, 5, 5, 5], // Datos para la lÃ­nea punteada (usualmente el mismo valor si es un lÃ­mite horizontal)
                 data: min,
-                borderColor: '#C0C0C7', // Color de la línea punteada
-                backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la línea
-                borderWidth: 2, // Ancho de la línea
-                borderDash: [5, 5], // Patrón de la línea punteada
+                borderColor: '#C0C0C7', // Color de la lÃ­nea punteada
+                backgroundColor: 'transparent', // Fondo transparente para que no se rellene bajo la lÃ­nea
+                borderWidth: 2, // Ancho de la lÃ­nea
+                borderDash: [5, 5], // PatrÃ³n de la lÃ­nea punteada
                 pointRadius: 0, // Radio del punto (0 para que no se muestren puntos)
-                fill: false, // Especifica que no se rellene el área bajo la línea
-                tension: 0, // Líneas rectas sin curvatura
+                fill: false, // Especifica que no se rellene el Ã¡rea bajo la lÃ­nea
+                tension: 0, // LÃ­neas rectas sin curvatura
             }]
         },
         options: {            
@@ -321,19 +321,19 @@ function initGraf() {
                         pointStyle: 'rectRounded', // Estilo del punto (cuadrado redondeado)
                         padding: 20, // Espaciado entre elementos de la leyenda
                         boxWidth: 8, // Ancho del cuadro de color en la leyenda
-                        boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporción, podría omitirse)
+                        boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporciÃ³n, podrÃ­a omitirse)
                         color: 'rgba(255, 255, 255, 0.9)',
                         // Personaliza las etiquetas de la leyenda
                         generateLabels: function(chart) {
                             const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
                             labels.forEach(label => {
-                                // Cambiar marca cuadrada por línea en leyenda de convensiones
+                                // Cambiar marca cuadrada por lÃ­nea en leyenda de convensiones
                                 if (label.text === 'M\u00E1x' || label.text === 'M\u00EDn') {
                                     // Cambiar el estilo de punto a 'line'
                                     label.pointStyle = 'line';
-                                    // Establecer el grosor de la línea para la leyenda
+                                    // Establecer el grosor de la lÃ­nea para la leyenda
                                     label.lineWidth = 2;
-                                    // Establecer el patrón de la línea punteada
+                                    // Establecer el patrÃ³n de la lÃ­nea punteada
                                     label.borderDash = [5, 5];
                                 }
                             });
@@ -346,11 +346,11 @@ function initGraf() {
                     text: 'Equil\u00EDbrio e limites',
                     color: 'rgba(255, 255, 255, 0.9)',
                     padding: {
-                        top: 10, // Aumentar la distancia del título desde la parte superior
+                        top: 10, // Aumentar la distancia del tÃ­tulo desde la parte superior
                         bottom: 5 //Ajustar la distancia desde la parte inferior si es necesario
                     },
-                    font: { // Agregar la configuración de la fuente
-                        size: 18 // Tamaño de la fuente del título
+                    font: { // Agregar la configuraciÃ³n de la fuente
+                        size: 18 // TamaÃ±o de la fuente del tÃ­tulo
                     },
                 },
                 tooltip: {
@@ -358,14 +358,14 @@ function initGraf() {
                         label: function(context) { 
                             // Obtener el nombre de la serie de datos
                             const label = context.dataset.label || '';
-                            // Obtener índice de dato
+                            // Obtener Ã­ndice de dato
                             const index = context.dataIndex;
-                            // Acceder a los valores del label específico
+                            // Acceder a los valores del label especÃ­fico
                             const valores = datos.get(label);
                             // Obtener el valor real del punto de datos
                             const value = valores[index];
                             // Combinar la etiqueta y el valor para mostrar ambos en el tooltip
-                            return `${label}: ${value}`;  //Adicionar código para entregar el valor real al tooltip
+                            return `${label}: ${value}`;  //Adicionar cÃ³digo para entregar el valor real al tooltip
                         }
                     }
                 }               
@@ -374,14 +374,14 @@ function initGraf() {
                 x: {
                     ticks: {
                       color: function(context) {
-                        // `context` es un objeto que contiene información sobre el tick actual, incluyendo su índice
-                        // Aquí puedes acceder a tu vector de colores usando `context.index` para cambiar el color de cada tick
+                        // `context` es un objeto que contiene informaciÃ³n sobre el tick actual, incluyendo su Ã­ndice
+                        // AquÃ­ puedes acceder a tu vector de colores usando `context.index` para cambiar el color de cada tick
                         return vectorColores[context.index];
                       },
-                      // Otras opciones de configuración de los ticks
+                      // Otras opciones de configuraciÃ³n de los ticks
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)', // Color de las líneas de la cuadrícula del eje X
+                        color: 'rgba(255, 255, 255, 0.2)', // Color de las lÃ­neas de la cuadrÃ­cula del eje X
                     }
                 },
                 y: {
@@ -389,10 +389,10 @@ function initGraf() {
                         color: 'rgba(255, 255, 255, 0.9)', // Color del texto de los ticks del eje Y
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)', // Color de las líneas de la cuadrícula del eje Y
+                        color: 'rgba(255, 255, 255, 0.2)', // Color de las lÃ­neas de la cuadrÃ­cula del eje Y
                     },
-                    min: 0, // Límite inferior en 0
-                    max: 1, // Límite superior en 1
+                    min: 0, // LÃ­mite inferior en 0
+                    max: 1, // LÃ­mite superior en 1
                 }
             }             
         }
@@ -408,7 +408,7 @@ function initGraf() {
             labels: ['Atendido', 'N\u00E3o atendido'],
             datasets: [{
                 label: 'Porcentaje',
-                data: [atendimiento, 100.0-atendimiento], // Estos valores deberían ser dinámicos
+                data: [atendimiento, 100.0-atendimiento], // Estos valores deberÃ­an ser dinÃ¡micos
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.2)',
                     'rgba(255, 206, 86, 0.2)',
@@ -429,9 +429,9 @@ function initGraf() {
             cutout: '67%',
             layout: {
                 padding: {
-                    left: 0, // Establecer según sea necesario
-                    right: 0, // Establecer según sea necesario
-                    // Mantén el top y bottom si es necesario
+                    left: 0, // Establecer segÃºn sea necesario
+                    right: 0, // Establecer segÃºn sea necesario
+                    // MantÃ©n el top y bottom si es necesario
                 }
             },
             plugins: {
@@ -442,7 +442,7 @@ function initGraf() {
                         pointStyle: 'rectRounded', // Estilo del punto (cuadrado redondeado)
                         padding: 25, // Espaciado entre elementos de la leyenda
                         boxWidth: 8, // Ancho del cuadro de color en la leyenda
-                        boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporción, podría omitirse)
+                        boxHeight: 8, // Altura del cuadro de color en la leyenda (opcional, para mantener proporciÃ³n, podrÃ­a omitirse)
                         color: 'rgba(255, 255, 255, 0.9)',
                     },
                     align: 'center', // Alinear la leyenda al inicio (izquierda para 'bottom')
@@ -453,28 +453,28 @@ function initGraf() {
                     text: 'Qualidade de atendimento',
                     color: 'rgba(255, 255, 255, 0.9)',
                     padding: {
-                        top: 10, // Aumentar la distancia del título desde la parte superior
+                        top: 10, // Aumentar la distancia del tÃ­tulo desde la parte superior
                         bottom: 20, // Ajustar la distancia desde la parte inferior si es necesario
                         raight: 10,
                         left: 0,
                     },
-                    font: { // Agregas la configuración de la fuente
-                        size: 18 // Tamaño de la fuente del título
+                    font: { // Agregas la configuraciÃ³n de la fuente
+                        size: 18 // TamaÃ±o de la fuente del tÃ­tulo
                     },
                 },
                 centerText: { // Plugin personalizado para agregar texto de espera
-                    text: 'Calculando...' // Texto inicial, se actualizará con el porcentaje
+                    text: 'Calculando...' // Texto inicial, se actualizarÃ¡ con el porcentaje
                 },
                 layout: {
                     padding: {
-                        top: 5, // Ajustar según sea necesario para el espacio adicional alrededor del gráfico
+                        top: 5, // Ajustar segÃºn sea necesario para el espacio adicional alrededor del grÃ¡fico
                     }
                 } 
             }          
         },
-        plugins: [{ // Agregar el plugin directamente al gráfico
+        plugins: [{ // Agregar el plugin directamente al grÃ¡fico
             id: 'centerText', // Identificador para el plugin
-            afterDraw: function(chart) { // Función que se llama después de que el gráfico se dibuja
+            afterDraw: function(chart) { // FunciÃ³n que se llama despuÃ©s de que el grÃ¡fico se dibuja
                 let text = chart.options.plugins.centerText.text,
                     ctx = chart.ctx,
                     centerX = (chart.chartArea.left + chart.chartArea.right) / 2,
@@ -495,7 +495,7 @@ function initGraf() {
     const total = GraficoTorta.data.datasets[0].data.reduce((a, b) => a + b, 0);
     const percentageText = ((GraficoTorta.data.datasets[0].data[0] / total) * 100).toFixed(1) + '%';
     
-    // Actualizar el texto del plugin y forzar una actualización del gráfico
+    // Actualizar el texto del plugin y forzar una actualizaciÃ³n del grÃ¡fico
     GraficoTorta.options.plugins.centerText.text = percentageText;
     GraficoTorta.update();   
     
@@ -513,7 +513,7 @@ function initGraf() {
           //document.getElementById('Pop').textContent = data.population_size;
           document.getElementById('Rm').textContent = data.mutation_rate;
       })
-      .catch(error => console.error('Error al cargar estadística:', error));
+      .catch(error => console.error('Error al cargar estadÃ­stica:', error));
             
 }
 
@@ -525,9 +525,9 @@ document.getElementById('input-json').addEventListener('change', function(e) {
         //Para obtener el nombre del archivo
         rotaStats = e.target.files[0].name.replace("_out", "_stats");        
         const data = JSON.parse(reader.result); // Parse the JSON file content
-        // Aquí puedes llamar a la función que transforma el JSON
-        const datosTransformados = transformarDatos(data); // Asumiendo que esta función ya existe
-        // Prepara y realiza la actualización en GitHub
+        // AquÃ­ puedes llamar a la funciÃ³n que transforma el JSON
+        const datosTransformados = transformarDatos(data); // Asumiendo que esta funciÃ³n ya existe
+        // Prepara y realiza la actualizaciÃ³n en GitHub
         actualizarArchivoGitHub(datosTransformados);
     };
     reader.readAsText(e.target.files[0]);
@@ -540,7 +540,7 @@ function transformarDatos(datos) {
     try {
         // Transformar la estructura
         const nuevaEstructura = {
-            atendimento: 97.3, // Valor estático, ajusta según necesidad
+            atendimento: 97.3, // Valor estÃ¡tico, ajusta segÃºn necesidad
             rotas: datos.routes.map(route => {
                 // Calcular el volumen total para la ruta
                 const volumenTotal = route.orders.reduce((total, order) => total + order.volume, 0)-1;
@@ -548,12 +548,12 @@ function transformarDatos(datos) {
                 return {
                     id: route.id + 1, // Asume que quieres incrementar el id en 1
                     pontos: route.orders.flatMap(order => [
-                        // Transforma cada dirección en un objeto de punto
+                        // Transforma cada direcciÃ³n en un objeto de punto
                         { lat: order.address.latitude, log: order.address.longitude }
                     ]),
-                    volume: volumenTotal, // Suma de todos los volúmenes de los pedidos de la ruta
-                    tempo: Math.round(Math.random() * 2) + 5, // Valor estático, ajusta según necesidad
-                    entregas: route.orders.length - 2 // Cantidad de entregas basada en el número de órdenes
+                    volume: volumenTotal, // Suma de todos los volÃºmenes de los pedidos de la ruta
+                    tempo: Math.round(Math.random() * 2) + 5, // Valor estÃ¡tico, ajusta segÃºn necesidad
+                    entregas: route.orders.length - 2 // Cantidad de entregas basada en el nÃºmero de Ã³rdenes
                 };
             })
         };
@@ -569,9 +569,9 @@ function transformarDatos(datos) {
 
 function actualizarArchivoGitHub(datosTransformados) {
     /*
-    // Este es un ejemplo de cómo se podría hacer, pero recuerda no exponer tu PAT
+    // Este es un ejemplo de cÃ³mo se podrÃ­a hacer, pero recuerda no exponer tu PAT
     const url = `https://api.github.com/repos/CAMUZQUI/Correios-dashboard/contents/static/json/rotas.json`;
-    const token = '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'; // ¡Alerta de seguridad!
+    const token = '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'; // Â¡Alerta de seguridad!
 
     fetch(url, {
         method: 'GET',
@@ -584,7 +584,7 @@ function actualizarArchivoGitHub(datosTransformados) {
     .then(data => {
         const sha = data.sha; // Necesitas el SHA actual del archivo para poder actualizarlo
         //const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(datosTransformados)))); // Codifica el nuevo contenido en base64
-        const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(datosTransformados, null, 2)))); // El '2' añade la indentación
+        const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(datosTransformados, null, 2)))); // El '2' aÃ±ade la indentaciÃ³n
 
         
         fetch(url, {
@@ -603,8 +603,8 @@ function actualizarArchivoGitHub(datosTransformados) {
         */
         
         document.getElementById('divGraficas').style.display = 'none';
-        window.GraficoDeLinea.destroy(); // Destruye el gráfico existente
-        window.GraficoTorta.destroy(); // Destruye el gráfico existente
+        window.GraficoDeLinea.destroy(); // Destruye el grÃ¡fico existente
+        window.GraficoTorta.destroy(); // Destruye el grÃ¡fico existente
         actMap(datosTransformados);
         //showAlert();
         
@@ -629,7 +629,7 @@ function llenarSelectorConArchivos() {
       // Limpiar las opciones existentes
       selector.innerHTML = '';
 
-      // Filtrar y añadir solo los archivos deseados como opciones
+      // Filtrar y aÃ±adir solo los archivos deseados como opciones
       data.forEach(archivo => {
         if (archivo.name.endsWith('_out.json')) {
           const opcion = document.createElement('option');
@@ -647,7 +647,7 @@ document.addEventListener('DOMContentLoaded', llenarSelectorConArchivos);
 
 document.getElementById('selectorDeArchivos').addEventListener('change', function() {
     const baseUrl = window.location.pathname;
-    const selectedFileName = this.value; // Obtén el nombre del archivo seleccionado
+    const selectedFileName = this.value; // ObtÃ©n el nombre del archivo seleccionado
     const filePath = `${selectedFileName}`; // Construye la ruta al archivo
     
     //console.log(filePath);
@@ -657,13 +657,13 @@ document.getElementById('selectorDeArchivos').addEventListener('change', functio
         .then(data => {
             const  pathParts = filePath.split('/');
             const fileName = pathParts.pop();
-            // Obtener el nombre para el archivo estadísticas reemplazando "_out" con "_stats"
+            // Obtener el nombre para el archivo estadÃ­sticas reemplazando "_out" con "_stats"
             rotaStats = fileName.replace("_cvrp_out", "_ga_stats");
     
-            // Aquí puedes llamar a la función que transforma el JSON
-            const datosTransformados = transformarDatos(data); // Asumiendo que esta función ya existe
+            // AquÃ­ puedes llamar a la funciÃ³n que transforma el JSON
+            const datosTransformados = transformarDatos(data); // Asumiendo que esta funciÃ³n ya existe
     
-            // Prepara y realiza la actualización en GitHub
+            // Prepara y realiza la actualizaciÃ³n en GitHub
             actualizarArchivoGitHub(datosTransformados);
             console.log(datosTransformados);
         })
