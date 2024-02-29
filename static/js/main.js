@@ -12,7 +12,9 @@ let min = [];
 var atendimiento = 0;
 */
 
-var rotaStats = "";
+var rotaStats = "rotas_stats.json";
+var cTot=0;
+let vectorColores = [];
 
 function initMap() {
 
@@ -25,7 +27,8 @@ function initMap() {
     var Conv=false;
     var Pop=0;
     var Rm=0.0;
-    
+        
+        
     const baseUrl = window.location.pathname;
     // Usar plantilla literal con backticks para incluir la variable en la cadena
     const jsonFilePath = `${baseUrl}static/json/map_styles.json`.replace('//', '/');
@@ -66,32 +69,43 @@ function initMap() {
               .then(response => response.json()) // Convierte la respuesta en JSON
               .then(data => {
               
-                console.log(data);
+                //console.log(data);
                   
                 atendimiento = data.atendimento;
                 var rotas = data.rotas;
                 
                 // Para valores totales de cada ruta (sumatorias)
-                for (var i = 0; i < rotas.length; i++) {
+                for (var i = 0; i < rotas.length; i++) {                    
                     tTot+=rotas[i].tempo;
                     vTot+=rotas[i].volume;
                     eTot+=rotas[i].entregas;
+                    /*
+                    //Por ahora se modifica porque no está en solución
+                    data.rotas[i].tempo=Math.round(Math.random() * 2) + 5;
+                    tTot+=data.rotas[i].tempo;
+                    vTot+=rotas[i].volume;
+                    eTot+=rotas[i].volume;
+                    */
                     max.push(0.75);
-                    min.push(0.25);
+                    min.push(0.25);                    
                 }
+                cTot=eTot;
                 
                 datos.set('Tempo', []);
                 datos.set('Volume', []);
                 datos.set('Entregas', []);
-                                                
+                                        
+                //cTot=0;        
                 // Iterar sobre todas las rutas
                 for (var i = 0; i < rotas.length; i++) {
+                
+                    vectorColores.push(generarColor2());
                 
                     // Servicio Directions para procesar 'request'
                     var directionsService = new google.maps.DirectionsService();                               
                     let directionsRenderer = new google.maps.DirectionsRenderer({
                         polylineOptions: {
-                            strokeColor: generarColor2(), // Puedes poner cualquier color en formato hexadecimal   
+                            strokeColor: vectorColores[i], // Puedes poner cualquier color en formato hexadecimal   
                             strokeOpacity: 1.0,                 
                             strokeWeight: 3
                         },
@@ -114,7 +128,7 @@ function initMap() {
                         origin: start,
                         destination: start,
                         waypoints: waypts,
-                        optimizeWaypoints: true,
+                        optimizeWaypoints: false,
                         travelMode: 'DRIVING' // Modo de viaje
                     };
                     
@@ -126,28 +140,24 @@ function initMap() {
                             
                             // Para cada waypoint colocar un marcador pequeño
                             // Extrae la ruta
-                            var route = result.routes[0];                   
+                            var route = result.routes[0];                            
                             
-                    
                             // Itera a través de cada leg de la ruta
-                            route.legs.forEach(function(leg) {
-                                // Coloca un marcador en cada paso (punto de giro) de la leg
-                                leg.steps.forEach(function(step) {
-                                    new google.maps.Marker({
-                                        position: step.start_location,
-                                        map: map,
-                                        icon: {
-                                            path: google.maps.SymbolPath.CIRCLE,
-                                            scale: 3, // Tamaño del marcador
-                                            strokeColor: '#333FFF', // Color del borde neón 
-                                            fillColor: '#FE020E', // Color de relleno neón '#2E9CCC'
-                                            fillOpacity: 0.7, // Opacidad del relleno
-                                            strokeWeight: 1.3 // Grosor del borde
-                                        }
-                                    });
-                                });  
-                            });
-        
+                            route.legs.forEach(function(leg) {                                
+                                new google.maps.Marker({
+                                    position: leg.start_location,
+                                    map: map,
+                                    icon: {
+                                        path: google.maps.SymbolPath.CIRCLE,
+                                        scale: 3, // Tamaño del marcador
+                                        strokeColor: '#333FFF', // Color del borde neón 
+                                        fillColor: '#FE020E', // Color de relleno neón '#2E9CCC'
+                                        fillOpacity: 0.7, // Opacidad del relleno
+                                        strokeWeight: 1.3 // Grosor del borde
+                                    }
+                                });                                  
+                                //cTot+=1;
+                            });                                 
                                                    
                         }
                     });
@@ -175,7 +185,9 @@ function initMap() {
                         }, 4500); // Retraso de 3500 ms
                         setTimeout(function() {
                             document.getElementById('divGraficas').style.display = 'block';
-                            initGraf();                        
+                            initGraf();   
+                            const selector = document.getElementById('selectorDeArchivos');
+                            selector.value = 'n_30_cvrp_out.json';                     
                         }, 2500);
                     }              
                     
@@ -228,6 +240,8 @@ function generarColor2() {
 function initGraf() {  
     
     const ctx = document.getElementById('GraficoDeLinea').getContext('2d');
+    
+    
     window.GraficoDeLinea = new Chart(ctx, {
         type: 'line',
         data: {
@@ -285,7 +299,7 @@ function initGraf() {
                 tension: 0, // Líneas rectas sin curvatura
             }]
         },
-        options: {
+        options: {            
             responsive: true,
             maintainAspectRatio: false,
             scales: {
@@ -357,7 +371,12 @@ function initGraf() {
             scales: {
                 x: {
                     ticks: {
-                        color: 'rgba(255, 255, 255, 0.9)', // Color del texto de los ticks del eje X
+                      color: function(context) {
+                        // `context` es un objeto que contiene información sobre el tick actual, incluyendo su índice
+                        // Aquí puedes acceder a tu vector de colores usando `context.index` para cambiar el color de cada tick
+                        return vectorColores[context.index];
+                      },
+                      // Otras opciones de configuración de los ticks
                     },
                     grid: {
                         color: 'rgba(255, 255, 255, 0.2)', // Color de las líneas de la cuadrícula del eje X
@@ -478,23 +497,25 @@ function initGraf() {
     GraficoTorta.options.plugins.centerText.text = percentageText;
     GraficoTorta.update();   
     
+        
     const baseUrl = window.location.pathname;
-    var jsonFilePathStats = `${baseUrl}static/json/rotas_stats.json`.replace('//', '/');    
+    var jsonFilePathStats = `${baseUrl}static/json/${rotaStats}`.replace('//', '/');  
+    //console.log(jsonFilePathStats);  
     fetch(jsonFilePathStats)
       .then(response => response.json()) // Convierte la respuesta en JSON
       .then(data => {    
           document.getElementById('Ff').textContent = data.final_fitness.toString().substring(0, 8);
           document.getElementById('Ge').textContent = data.final_generation.toString().substring(0, 8);
           document.getElementById('t').textContent = data.seconds_processed.toString().substring(0, 8);
-          if(data.converge) document.getElementById('Conv').textContent = "Converge"; else document.getElementById('Conv').textContent = "";
-          document.getElementById('Pop').textContent = data.population_size;
+          document.getElementById('Conv').textContent = cTot;
+          //document.getElementById('Pop').textContent = data.population_size;
           document.getElementById('Rm').textContent = data.mutation_rate;
       })
       .catch(error => console.error('Error al cargar estadística:', error));
             
 }
 
-
+/*
 //Para buscar .json y actualizar en servidor
 document.getElementById('input-json').addEventListener('change', function(e) {
     const reader = new FileReader();
@@ -509,7 +530,7 @@ document.getElementById('input-json').addEventListener('change', function(e) {
     };
     reader.readAsText(e.target.files[0]);
 });
-
+*/
 
 
 
@@ -520,7 +541,7 @@ function transformarDatos(datos) {
             atendimento: 97.3, // Valor estático, ajusta según necesidad
             rotas: datos.routes.map(route => {
                 // Calcular el volumen total para la ruta
-                const volumenTotal = route.orders.reduce((total, order) => total + order.volume, 0);
+                const volumenTotal = route.orders.reduce((total, order) => total + order.volume, 0)-1;
 
                 return {
                     id: route.id + 1, // Asume que quieres incrementar el id en 1
@@ -529,8 +550,8 @@ function transformarDatos(datos) {
                         { lat: order.address.latitude, log: order.address.longitude }
                     ]),
                     volume: volumenTotal, // Suma de todos los volúmenes de los pedidos de la ruta
-                    tempo: 5, // Valor estático, ajusta según necesidad
-                    entregas: route.orders.length // Cantidad de entregas basada en el número de órdenes
+                    tempo: Math.round(Math.random() * 2) + 5, // Valor estático, ajusta según necesidad
+                    entregas: route.orders.length - 2 // Cantidad de entregas basada en el número de órdenes
                 };
             })
         };
@@ -594,6 +615,64 @@ function actualizarArchivoGitHub(datosTransformados) {
 
 
 
+function llenarSelectorConArchivos() {
+  const owner = 'CAMUZQUI'; // Tu nombre de usuario en GitHub
+  const repo = 'Correios-dashboard'; // El nombre de tu repositorio
+  const path = 'static/json'; // La ruta a la carpeta dentro de tu repositorio
+
+  fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`)
+    .then(response => response.json())
+    .then(data => {
+      const selector = document.getElementById('selectorDeArchivos');
+      // Limpiar las opciones existentes
+      selector.innerHTML = '';
+
+      // Filtrar y añadir solo los archivos deseados como opciones
+      data.forEach(archivo => {
+        if (archivo.name.endsWith('_out.json')) {
+          const opcion = document.createElement('option');
+          opcion.value = archivo.download_url; // Usar la URL de descarga como valor
+          opcion.textContent = archivo.name;
+          selector.appendChild(opcion);
+        }
+      });      
+    })
+    .catch(error => console.error('Error al obtener archivos:', error)); 
+  
+}
+
+document.addEventListener('DOMContentLoaded', llenarSelectorConArchivos);
+
+document.getElementById('selectorDeArchivos').addEventListener('change', function() {
+    const baseUrl = window.location.pathname;
+    const selectedFileName = this.value; // Obtén el nombre del archivo seleccionado
+    const filePath = `${selectedFileName}`; // Construye la ruta al archivo
+    
+    //console.log(filePath);
+    
+    fetch(filePath)
+        .then(response => response.json()) // Parsea la respuesta como JSON
+        .then(data => {
+            const  pathParts = filePath.split('/');
+            const fileName = pathParts.pop();
+            // Obtener el nombre para el archivo estadísticas reemplazando "_out" con "_stats"
+            rotaStats = fileName.replace("_cvrp_out", "_ga_stats");
+    
+            // Aquí puedes llamar a la función que transforma el JSON
+            const datosTransformados = transformarDatos(data); // Asumiendo que esta función ya existe
+    
+            // Prepara y realiza la actualización en GitHub
+            actualizarArchivoGitHub(datosTransformados);
+            console.log(datosTransformados);
+        })
+        .catch(error => console.error('Error al cargar el archivo JSON:', error));
+});
+
+
+
+
+
+
 //Para eliminar cookies
 document.addEventListener('DOMContentLoaded', (event) => {
   var cookies = document.cookie.split(";");
@@ -604,5 +683,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
   }
+  llenarSelectorConArchivos;
 });
-
