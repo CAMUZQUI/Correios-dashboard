@@ -86,13 +86,13 @@ function actMap(data) {
               // Iterar sobre todas las rutas
               for (var i = 0; i < rotas.length; i++) {
               
-                  vectorColores.push(generarColor2());
+                  if(rotas.length>3) vectorColores.push(generarColor2());
               
                   // Servicio Directions para procesar 'request'
                   var directionsService = new google.maps.DirectionsService();                               
                   let directionsRenderer = new google.maps.DirectionsRenderer({
                       polylineOptions: {
-                          strokeColor: generarColor2(), // Puedes poner cualquier color en formato hexadecimal   
+                          strokeColor: vectorColores[i], // Puedes poner cualquier color en formato hexadecimal   
                           strokeOpacity: 1.0,                 
                           strokeWeight: 3
                       },
