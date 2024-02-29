@@ -86,7 +86,7 @@ function actMap(data) {
               // Iterar sobre todas las rutas
               for (var i = 0; i < rotas.length; i++) {
               
-                  if(rotas.length>3) vectorColores.push(generarColor2());
+                  if(rotas.length>5) vectorColores.push(generarColor2());
               
                   // Servicio Directions para procesar 'request'
                   var directionsService = new google.maps.DirectionsService();                               
