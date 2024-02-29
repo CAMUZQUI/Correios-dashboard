@@ -15,7 +15,7 @@ var atendimiento = 0;
 var rotaStats = "rotas_stats.json";
 var cTot=0;
 //let vectorColores = [];
-let vectorColores =['hsl(179, 81%, 42%)', 'hsl(321, 100%, 46%)', 'hsl(99, 88%, 53%)'];
+let vectorColores =['hsl(179, 81%, 42%)', 'hsl(321, 100%, 46%)', 'hsl(99, 88%, 53%)', 'hsl(56, 97%, 51%)', 'hsl(0, 99%, 50%)'];
 
 function initMap() {
 
@@ -100,7 +100,7 @@ function initMap() {
                 // Iterar sobre todas las rutas
                 for (var i = 0; i < rotas.length; i++) {
                 
-                    if(rotas.length>3) vectorColores.push(generarColor2());
+                    if(rotas.length>5) vectorColores.push(generarColor2());
                 
                     // Servicio Directions para procesar 'request'
                     var directionsService = new google.maps.DirectionsService();                               
